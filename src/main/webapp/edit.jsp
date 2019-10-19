@@ -5,6 +5,9 @@
 <jsp:useBean scope="session" id="cognos"
 	class="nastacio.cognosde.util.CognosEmbeddedUtil" />
 
+<jsp:setProperty name="cognos" property="appUri" 
+    value="<%= request %>" />
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
