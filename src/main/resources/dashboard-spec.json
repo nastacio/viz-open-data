@@ -1,0 +1,899 @@
+{
+	"name": "New dashboard",
+	"layout": {
+		"id": "page0",
+		"items": [
+			{
+				"id": "page1",
+				"css": "templateBox aspectRatio_default",
+				"items": [
+					{
+						"id": "page2",
+						"style": {
+							"top": "0%",
+							"left": "0%",
+							"right": "0%",
+							"bottom": "0%"
+						},
+						"type": "templateDropZone"
+					},
+					{
+						"id": "model00000165c0d40896_00000001",
+						"from": "model00000165c0d23f21_00000001",
+						"style": {
+							"left": "66.54492330168006%",
+							"top": "0.13280212483399734%",
+							"height": "16.06905710491368%",
+							"width": "33.382030679327976%"
+						},
+						"type": "widget",
+						"relatedLayouts": ""
+					},
+					{
+						"id": "model00000165be847e1a_00000000",
+						"style": {
+							"left": "0.07304601899196493%",
+							"top": "0.13280212483399734%",
+							"height": "16.06905710491368%",
+							"width": "33.674214755295836%"
+						},
+						"type": "widget",
+						"relatedLayouts": "",
+						"clones": 1
+					},
+					{
+						"id": "model00000165c0d23f21_00000001",
+						"from": "model00000165be847e1a_00000000",
+						"style": {
+							"left": "33.7472607742878%",
+							"top": "0.13280212483399734%",
+							"height": "16.06905710491368%",
+							"width": "32.797662527392255%"
+						},
+						"type": "widget",
+						"relatedLayouts": "",
+						"clones": 1
+					},
+					{
+						"id": "model00000165c0d6a781_00000000",
+						"style": {
+							"left": "0.07304601899196493%",
+							"top": "16.201859229747676%",
+							"height": "44.09030544488712%",
+							"width": "33.674214755295836%"
+						},
+						"type": "widget",
+						"relatedLayouts": "",
+						"clones": 2
+					},
+					{
+						"id": "model00000165c0d92488_00000000",
+						"from": "model00000165c0d6a781_00000000",
+						"style": {
+							"left": "33.7472607742878%",
+							"top": "16.201859229747676%",
+							"height": "44.09030544488712%",
+							"width": "32.797662527392255%"
+						},
+						"type": "widget",
+						"relatedLayouts": ""
+					},
+					{
+						"id": "model00000165c0da358e_00000001",
+						"from": "model00000165c0d6a781_00000000",
+						"style": {
+							"left": "66.54492330168006%",
+							"top": "16.201859229747676%",
+							"height": "44.09030544488712%",
+							"width": "33.382030679327976%"
+						},
+						"type": "widget",
+						"relatedLayouts": "",
+						"clones": 1
+					},
+					{
+						"id": "model00000165c0e7db05_00000000",
+						"style": {
+							"left": "0.06666666666666667%",
+							"top": "60.24242424242424%",
+							"height": "39.63636363636363%",
+							"width": "99.86666666666666%"
+						},
+						"type": "widget",
+						"relatedLayouts": ""
+					}
+				],
+				"type": "scalingAbsolute"
+			}
+		],
+		"type": "container",
+		"templateName": "Template1"
+	},
+	"theme": "defaultTheme",
+	"version": 1008,
+	"eventGroups": [
+		{
+			"id": "page1:1",
+			"widgetIds": [
+				"model00000165be847e1a_00000000",
+				"model00000165c0d23f21_00000001",
+				"model00000165c0d40896_00000001",
+				"model00000165c0d6a781_00000000",
+				"model00000165c0d92488_00000000",
+				"model00000165c0da358e_00000001",
+				"model00000165c0e7db05_00000000"
+			]
+		}
+	],
+	"properties": {
+		"defaultLocale": "Default"
+	},
+	"dataSources": {
+		"version": "1.0",
+		"sources": [
+			{
+				"id": "model00000165be83f67f_00000001",
+				"assetId": "assetId00000165be83f67e_00000000",
+				"clientId": "un.r-and-d",
+				"module": {
+					"xsd": "https://ibm.com/daas/module/1.0/module.xsd",
+					"source": {
+						"id": "un.r-and-d",
+						"srcUrl": {
+							"sourceUrl": "http://data.un.org/_Docs/SYB/CSV/SYB62_T26_201904_Research%20and%20Development%20Staff.csv",
+							"mimeType": "text/csv",
+							"property": [
+							]
+						}
+					},
+					"table": {
+						"name": "Table",
+						"column": [
+							{
+								"name": "RegionCode",
+								"datatype": "BIGINT",
+								"nullable": true,
+								"description": "World Region Code",
+								"label": "World Region Code",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "RegionCode",
+								"datatype": "NVARCHAR(64)",
+								"nullable": true,
+								"description": "World Region",
+								"label": "World Region",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"datatype": "BIGINT",
+								"nullable": true,
+								"name": "Year_",
+								"description": "Year",
+								"label": "Year",
+								"usage": "attribute",
+								"regularAggregate": "none",
+								"taxonomyFamily": "cYear"
+							},
+							{
+								"datatype": "NVARCHAR(64)",
+								"nullable": true,
+								"name": "Series",
+								"description": "Series",
+								"label": "Series",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"datatype": "DOUBLE",
+								"nullable": true,
+								"name": "Value",
+								"description": "Value",
+								"label": "Value",
+								"usage": "fact",
+								"regularAggregate": "average"
+							}
+						]
+					},
+					"label": "data.global.r-and-d",
+					"identifier": "un-r-and-d"
+				},
+				"name": "Analysis Module",
+				"shaping": {
+					"shapingId": "shaping00000165c0f294c5_00000000",
+					"embeddedModuleUpToDate": false,
+					"moserJSON": {
+						"version": "5.0",
+						"container": "C",
+						"useSpec": [
+							{
+								"identifier": "ES",
+								"type": "url",
+								"storeID": "baseModule",
+								"imports": "*"
+							}
+						],
+						"expressionLocale": "en-us",
+						"querySubject": [
+							{
+								"ref": [
+									"ES.CTGOV"
+								],
+								"instanceType": "reference",
+								"item": [
+									{
+										"queryItem": {
+											"usage": "fact",
+											"regularAggregate": "total",
+											"identifier": "ENROLLMENT",
+											"property": [
+												{
+													"name": "propertySetByUser_170",
+													"value": "true"
+												},
+												{
+													"name": "propertySetByUser_165",
+													"value": "true"
+												}
+											]
+										}
+									}
+								],
+								"identifier": "CTGOV"
+							}
+						],
+						"calculation": [
+							{
+								"expression": "_year( CTGOV.START_DATE )",
+								"usage": "attribute",
+								"datatype": "INTEGER",
+								"nullable": true,
+								"regularAggregate": "minimum",
+								"datatypeCategory": "number",
+								"highlevelDatatype": "integer",
+								"facetDefinition": {
+									"enabled": "automatic"
+								},
+								"identifier": "start_year",
+								"label": "start year",
+								"property": [
+									{
+										"name": "ui_expr",
+										"value": "{\"func\":\"customCalculation\",\"version\":\"5.0\"}"
+									}
+								],
+								"propertyOverride": [
+									"NEW"
+								]
+							}
+						],
+						"metadataTreeView": [
+							{
+								"folderItem": [
+									{
+										"ref": "start_year"
+									}
+								]
+							}
+						],
+						"dataRetrievalMode": "liveConnection",
+						"identifier": "newModel",
+						"label": "newModel"
+					}
+				}
+			}
+		]
+	},
+	"pageContext": [
+		{
+			"origin": "filter",
+			"table": "",
+			"alias": "0",
+			"sourceId": "model00000165be83f67f_00000001",
+			"scope": "global",
+			"hierarchyNames": [
+				"study"
+			],
+			"hierarchyUniqueNames": [
+				"CTGOV.NCT_ID"
+			],
+			"isNamedSet": false
+		},
+		{
+			"origin": "filter",
+			"table": "",
+			"alias": "0",
+			"sourceId": "model00000165be83f67f_00000001",
+			"conditions": [
+				{
+					"from": [
+						"2007-01-01"
+					],
+					"to": [
+						"%%DATE_END_FILTER%%"
+					],
+					"attributeUniqueNames": [
+						"CTGOV.START_DATE"
+					]
+				}
+			],
+			"scope": "global",
+			"hierarchyNames": [
+				"start date"
+			],
+			"hierarchyUniqueNames": [
+				"CTGOV.START_DATE"
+			],
+			"isNamedSet": false
+		},
+		{
+			"origin": "filter",
+			"table": "",
+			"alias": "0",
+			"sourceId": "model00000165be83f67f_00000001",
+			"scope": "global",
+			"hierarchyNames": [
+				"study type"
+			],
+			"hierarchyUniqueNames": [
+				"CTGOV.STUDY_TYPE"
+			],
+			"isNamedSet": false
+		},
+		{
+			"origin": "filter",
+			"table": "",
+			"alias": "0",
+			"sourceId": "model00000165be83f67f_00000001",
+			"scope": "global",
+			"hierarchyNames": [
+				"condition"
+			],
+			"hierarchyUniqueNames": [
+				"CTGOV.CONDITION"
+			],
+			"isNamedSet": false
+		},
+		{
+			"origin": "filter",
+			"table": "",
+			"alias": "0",
+			"sourceId": "model00000165be83f67f_00000001",
+			"scope": "global",
+			"hierarchyNames": [
+				"oncology"
+			],
+			"hierarchyUniqueNames": [
+				"CTGOV.CONDITION_ONCO"
+			],
+			"exclude": false,
+			"isNamedSet": false,
+			"tupleSet": "{\"CTGOV.CONDITION_ONCO->[t ]\":{\"u\":\"CTGOV.CONDITION_ONCO->[t ]\",\"d\":\"t \"}}"
+		},
+		{
+			"origin": "filter",
+			"table": "",
+			"alias": "0",
+			"sourceId": "model00000165be83f67f_00000001",
+			"scope": "global",
+			"hierarchyNames": [
+				"has US facility"
+			],
+			"hierarchyUniqueNames": [
+				"CTGOV.HAS_US_FACILITY"
+			],
+			"isNamedSet": false
+		},
+		{
+			"origin": "filter",
+			"table": "",
+			"alias": "0",
+			"sourceId": "model00000165be83f67f_00000001",
+			"scope": "global",
+			"hierarchyNames": [
+				"has single facility"
+			],
+			"hierarchyUniqueNames": [
+				"CTGOV.HAS_SINGLE_FACILITY"
+			],
+			"isNamedSet": false
+		},
+		{
+			"origin": "filter",
+			"table": "",
+			"alias": "0",
+			"sourceId": "model00000165be83f67f_00000001",
+			"scope": "global",
+			"hierarchyNames": [
+				"source"
+			],
+			"hierarchyUniqueNames": [
+				"CTGOV.SOURCE"
+			],
+			"isNamedSet": false
+		}
+	],
+	"drillThrough": [],
+	"widgets": {
+		"model00000165be847e1a_00000000": {
+			"id": "model00000165be847e1a_00000000",
+			"data": {
+				"dataViews": [
+					{
+						"modelRef": "model00000165be83f67f_00000001",
+						"dataItems": [
+							{
+								"id": "model00000165be84e127_00000000",
+								"itemId": "CTGOV.NCT_ID",
+								"itemLabel": "study"
+							}
+						],
+						"id": "model00000165be84e126_00000000"
+					}
+				]
+			},
+			"visTypeLocked": true,
+			"slotmapping": {
+				"slots": [
+					{
+						"name": "values",
+						"dataItems": [
+							"model00000165be84e127_00000000"
+						],
+						"dataItemSettings": [],
+						"caption": "Value",
+						"id": "values"
+					}
+				]
+			},
+			"type": "live",
+			"borderColor": "color5",
+			"visId": "summary",
+			"properties": [
+				{
+					"id": "showItemLabel",
+					"value": false
+				},
+				{
+					"id": "valueColor",
+					"value": 0
+				},
+				{
+					"id": "widget.legend.position",
+					"value": "right"
+				}
+			],
+			"name": {
+				"translationTable": {
+					"Default": "Studies"
+				}
+			},
+			"showTitle": true
+		},
+		"model00000165c0d23f21_00000001": {
+			"id": "model00000165c0d23f21_00000001",
+			"data": {
+				"dataViews": [
+					{
+						"modelRef": "model00000165be83f67f_00000001",
+						"dataItems": [
+							{
+								"id": "model00000165c0d33a79_00000000",
+								"itemId": "CTGOV.CONDITION",
+								"itemLabel": "condition"
+							}
+						],
+						"id": "model00000165be84e126_00000000"
+					}
+				]
+			},
+			"visTypeLocked": true,
+			"slotmapping": {
+				"slots": [
+					{
+						"name": "values",
+						"dataItems": [
+							"model00000165c0d33a79_00000000"
+						],
+						"dataItemSettings": [],
+						"caption": "Value",
+						"id": "values",
+						"layerId": "data"
+					}
+				]
+			},
+			"type": "live",
+			"borderColor": "color5",
+			"visId": "summary",
+			"properties": [
+				{
+					"id": "showItemLabel",
+					"value": false
+				},
+				{
+					"id": "valueColor",
+					"value": 0
+				},
+				{
+					"id": "widget.legend.position",
+					"value": "right"
+				}
+			],
+			"name": {
+				"translationTable": {
+					"Default": "Conditions"
+				}
+			},
+			"showTitle": true
+		},
+		"model00000165c0d40896_00000001": {
+			"id": "model00000165c0d40896_00000001",
+			"data": {
+				"dataViews": [
+					{
+						"modelRef": "model00000165be83f67f_00000001",
+						"dataItems": [
+							{
+								"id": "model00000165c0d54b95_00000000",
+								"itemId": "CTGOV.SOURCE",
+								"itemLabel": "source"
+							}
+						],
+						"id": "model00000165be84e126_00000000"
+					}
+				]
+			},
+			"visTypeLocked": true,
+			"slotmapping": {
+				"slots": [
+					{
+						"name": "values",
+						"dataItems": [
+							"model00000165c0d54b95_00000000"
+						],
+						"dataItemSettings": [],
+						"caption": "Value",
+						"id": "values",
+						"layerId": "data"
+					}
+				]
+			},
+			"type": "live",
+			"borderColor": "color5",
+			"visId": "summary",
+			"properties": [
+				{
+					"id": "showItemLabel",
+					"value": false
+				},
+				{
+					"id": "valueColor",
+					"value": 0
+				},
+				{
+					"id": "widget.legend.position",
+					"value": "right"
+				}
+			],
+			"name": {
+				"translationTable": {
+					"Default": "Sponsors"
+				}
+			},
+			"showTitle": true,
+			"localFilters": []
+		},
+		"model00000165c0d6a781_00000000": {
+			"id": "model00000165c0d6a781_00000000",
+			"data": {
+				"dataViews": [
+					{
+						"modelRef": "model00000165be83f67f_00000001",
+						"dataItems": [
+							{
+								"id": "model00000165c0d700bf_00000000",
+								"itemId": "CTGOV.NCT_ID",
+								"itemLabel": "study",
+								"selection": [],
+								"aggregate": "countdistinct"
+							},
+							{
+								"id": "model00000165c0d9cb4d_00000000",
+								"itemId": "CTGOV.OVERALL_STATUS",
+								"itemLabel": "Status"
+							},
+							{
+								"id": "model00000165c0e2e365_00000000",
+								"itemId": "CTGOV.STUDY_TYPE",
+								"itemLabel": "study type"
+							}
+						],
+						"id": "model00000165c0d6e807_00000001"
+					}
+				]
+			},
+			"visTypeLocked": true,
+			"slotmapping": {
+				"slots": [
+					{
+						"name": "categories",
+						"dataItems": [
+							"model00000165c0d9cb4d_00000000"
+						],
+						"dataItemSettings": [],
+						"caption": "Bars",
+						"id": "categories"
+					},
+					{
+						"name": "values",
+						"dataItems": [
+							"model00000165c0d700bf_00000000"
+						],
+						"caption": "Length",
+						"id": "values"
+					},
+					{
+						"name": "color",
+						"dataItems": [
+							"model00000165c0e2e365_00000000"
+						],
+						"caption": "Color",
+						"id": "color"
+					}
+				]
+			},
+			"type": "live",
+			"borderColor": "color5",
+			"visId": "com.ibm.vis.rave2bundlestackedbar",
+			"name": {
+				"translationTable": {
+					"Default": "Studies by Type"
+				}
+			},
+			"showTitle": true,
+			"localFilters": []
+		},
+		"model00000165c0d92488_00000000": {
+			"id": "model00000165c0d92488_00000000",
+			"data": {
+				"dataViews": [
+					{
+						"modelRef": "model00000165be83f67f_00000001",
+						"dataItems": [
+							{
+								"id": "model00000165c0d6e808_00000000",
+								"itemId": "CTGOV.CONDITION",
+								"itemLabel": "condition",
+								"selection": []
+							},
+							{
+								"id": "model00000165c0d700bf_00000000",
+								"itemId": "CTGOV.NCT_ID",
+								"itemLabel": "study",
+								"selection": [
+									{
+										"operation": "keep",
+										"topBottom": {
+											"type": "topcount",
+											"value": 10
+										}
+									},
+									{
+										"operation": "order",
+										"sort": {
+											"type": "desc",
+											"priority": 1,
+											"by": "caption"
+										}
+									}
+								],
+								"aggregate": "countdistinct"
+							}
+						],
+						"id": "model00000165c0d6e807_00000001"
+					}
+				]
+			},
+			"visTypeLocked": true,
+			"slotmapping": {
+				"slots": [
+					{
+						"name": "categories",
+						"dataItems": [
+							"model00000165c0d6e808_00000000"
+						],
+						"dataItemSettings": [],
+						"caption": "Bars",
+						"id": "categories"
+					},
+					{
+						"name": "values",
+						"dataItems": [
+							"model00000165c0d700bf_00000000"
+						],
+						"caption": "Length",
+						"id": "values"
+					}
+				]
+			},
+			"type": "live",
+			"borderColor": "color5",
+			"visId": "com.ibm.vis.rave2bundlestackedbar",
+			"name": {
+				"translationTable": {
+					"Default": "Studies by Condition (Top-10)"
+				}
+			},
+			"showTitle": true,
+			"localFilters": []
+		},
+		"model00000165c0da358e_00000001": {
+			"id": "model00000165c0da358e_00000001",
+			"data": {
+				"dataViews": [
+					{
+						"modelRef": "model00000165be83f67f_00000001",
+						"dataItems": [
+							{
+								"id": "model00000165c0d700bf_00000000",
+								"itemId": "CTGOV.NCT_ID",
+								"itemLabel": "study",
+								"selection": [
+									{
+										"operation": "keep",
+										"topBottom": {
+											"type": "topcount",
+											"value": 10
+										}
+									}
+								],
+								"aggregate": "countdistinct"
+							},
+							{
+								"id": "model00000165c0e56872_00000000",
+								"itemId": "CTGOV.PHASE",
+								"itemLabel": "Phase"
+							}
+						],
+						"id": "model00000165c0d6e807_00000001"
+					}
+				]
+			},
+			"visTypeLocked": true,
+			"slotmapping": {
+				"slots": [
+					{
+						"name": "categories",
+						"dataItems": [
+							"model00000165c0e56872_00000000"
+						],
+						"dataItemSettings": [],
+						"caption": "Bars",
+						"id": "categories"
+					},
+					{
+						"name": "values",
+						"dataItems": [
+							"model00000165c0d700bf_00000000"
+						],
+						"caption": "Length",
+						"id": "values"
+					}
+				]
+			},
+			"type": "live",
+			"borderColor": "color5",
+			"visId": "com.ibm.vis.rave2bundlestackedbar",
+			"name": {
+				"translationTable": {
+					"Default": "Studies by Phase"
+				}
+			},
+			"showTitle": true,
+			"localFilters": []
+		},
+		"model00000165c0e7db05_00000000": {
+			"id": "model00000165c0e7db05_00000000",
+			"data": {
+				"dataViews": [
+					{
+						"modelRef": "model00000165be83f67f_00000001",
+						"dataItems": [
+							{
+								"id": "model00000165c0e81f4e_00000000",
+								"itemId": "CTGOV.NCT_ID",
+								"itemLabel": "study",
+								"aggregate": "countdistinct"
+							},
+							{
+								"id": "model00000165c0e9927d_00000000",
+								"itemId": "start_year",
+								"itemLabel": "start year"
+							},
+							{
+								"id": "model00000165c0e9ec70_00000000",
+								"itemId": "CTGOV.ENROLLMENT",
+								"itemLabel": "enrollment",
+								"aggregate": "avg"
+							},
+							{
+								"id": "model00000165c0ec516b_00000000",
+								"itemId": "CTGOV.ENROLLMENT_TYPE",
+								"itemLabel": "enrollment type"
+							}
+						],
+						"id": "model00000165c0e8052a_00000000"
+					}
+				]
+			},
+			"visTypeLocked": true,
+			"slotmapping": {
+				"slots": [
+					{
+						"name": "categories",
+						"dataItems": [
+							"model00000165c0e9927d_00000000"
+						],
+						"dataItemSettings": [],
+						"caption": "x-axis",
+						"id": "categories"
+					},
+					{
+						"name": "columnValue",
+						"dataItems": [
+							"model00000165c0e81f4e_00000000"
+						],
+						"caption": "Length",
+						"id": "columnValue"
+					},
+					{
+						"name": "lineValue",
+						"dataItems": [
+							"model00000165c0e9ec70_00000000"
+						],
+						"caption": "Line position",
+						"id": "lineValue"
+					},
+					{
+						"name": "repeatHorizontal",
+						"dataItems": [
+							"model00000165c0ec516b_00000000"
+						],
+						"caption": "Repeat (column)",
+						"id": "repeatHorizontal"
+					}
+				]
+			},
+			"type": "live",
+			"borderColor": "color5",
+			"visId": "com.ibm.vis.rave2bundlecomposite",
+			"name": {
+				"translationTable": {
+					"Default": "Studies and Enrollment Averages Over Time"
+				}
+			},
+			"showTitle": true,
+			"localFilters": [
+				{
+					"id": "CTGOV.ENROLLMENT_TYPE",
+					"columnId": "CTGOV.ENROLLMENT_TYPE",
+					"values": [
+						{
+							"d": "Actual",
+							"u": "CTGOV.ENROLLMENT_TYPE->[Actual]"
+						},
+						{
+							"d": "Anticipated",
+							"u": "CTGOV.ENROLLMENT_TYPE->[Anticipated]"
+						}
+					],
+					"excludedValues": [],
+					"operator": "in",
+					"type": null
+				}
+			]
+		}
+	}
+}

@@ -1,0 +1,39 @@
+apiVersion: appsody.dev/v1beta1
+kind: AppsodyApplication
+metadata:
+  name: viz-open-data
+spec:
+  # Add fields here
+  version: 1.0.0
+  applicationImage: dnastacio/viz-open-data:0.0.5
+  stack: java-microprofile
+  service:
+    type: NodePort
+    port: 9080
+    annotations:
+      prometheus.io/scrape: 'true'
+  readinessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /health/ready
+      port: 9080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  livenessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /health/live
+      port: 9080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  expose: true
+  createKnativeService: false
+  env:
+    - name: cognos-binding
+      valueFrom:
+        secretKeyRef:
+          name: binding-open-data-cognos-de
+          key: binding
+  envFrom:
+    - secretRef:
+        name: binding-open-data-cognos-de
