@@ -1,11 +1,25 @@
 <server description="Liberty server">
-    <featureManager>
-        <feature>microProfile-3.0</feature>
-        <feature>jsp-2.3</feature>
-    </featureManager>
-    <keyStore id="defaultKeyStore" location="key.jks" type="jks" password="mpKeystore"/>
-    <httpEndpoint host="*" httpPort="${default.http.port}" 
-        httpsPort="${default.https.port}" id="defaultHttpEndpoint"/>
-    
-    <webApplication location="viz-open-data.war" contextRoot="/"/>
+	<featureManager>
+		<feature>microProfile-3.0</feature>
+		<feature>jsp-2.3</feature>
+	</featureManager>
+	<keyStore id="defaultKeyStore" location="key.jks" password="mpKeystore" type="jks">
+	</keyStore>
+	<keyStore id="defaultTrustStore" password="changeit"
+		readOnly="false" type="JKS" location="/opt/java/openjdk/jre/lib/security/cacerts"></keyStore>
+
+	<ssl keyStoreRef="defaultKeyStore"
+		trustStoreRef="defaultTrustStore" id="defaultSSLSettings"></ssl>
+
+	<sslOptions sslRef="defaultSSLSettings"
+		id="defaultSSLConfig"></sslOptions>
+
+	<sslDefault sslRef="defaultSSLSettings" outboundSSLRef="defaultSSLSettings"></sslDefault>
+
+	<httpEndpoint host="*" httpPort="${default.http.port}"
+		httpsPort="${default.https.port}" id="defaultHttpEndpoint"
+		sslOptionsRef="defaultSSLConfig" />
+
+	<webApplication location="viz-open-data.war"
+		contextRoot="/" />
 </server>

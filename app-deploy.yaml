@@ -5,7 +5,7 @@ metadata:
 spec:
   # Add fields here
   version: 1.0.0
-  applicationImage: dnastacio/viz-open-data:0.0.5
+  applicationImage: dnastacio/viz-open-data:0.0.10
   stack: java-microprofile
   service:
     type: NodePort

@@ -48,6 +48,22 @@ Reference to "envFrom" "secretKeyRef"
 https://github.com/appsody/appsody-operator/blob/master/doc/user-guide.md
 
 
+Create truststore and add Cognos service certificate
+```
+keytool -importkeystore -srckeystore /opt/java/openjdk/jre/lib/security/cacerts -keystore /Users/nastacio/github.com/viz-open-data/src/main/liberty/config/resources/security/truststore.jks -deststoretype JKS -deststorepass mpKeystore -srcstorepass changeit
+
+keytool -importcert -file /Users/nastacio/github.com/viz-open-data/src/main/resources/us-southdynamic-dashboard-embeddedcloudibmcom.crt -keystore  /Users/nastacio/github.com/viz-open-data/src/main/liberty/config/resources/security/truststore.jks -noprompt -storetype JKS -storepass mpKeystore
+
+keytool -importcert -file /project/user-app/src/main/resources/us-southdynamic-dashboard-embeddedcloudibmcom.crt -alias ussouthcde -keystore  /project/user-app/src/main/liberty/config/resources/security/truststore.p12 -noprompt -storetype PKCS12 -storepass mpKeystore
+
+```
+
+Run the server with binding as an environment variable:
+
+```
+appsody run --docker-options="--env-file=/Users/nastacio/tmp/bindings.txt"
+```
+
 
 Add Kabanero repository to appsody list of repositories;
 
