@@ -151,7 +151,9 @@ option:disabled {
 </head>
 
 <body onload="init()">
-    ${cognos.sessionCode}
+    <span onclick="dashboardAPI.undo();;">undo</span>
+    <span onclick="dashboardAPI.redo();;">redo</span>
+    <span onclick="dashboardAPI.toggleProperties();">toggle toolbar</span>
 	<div class="iframeContainer" id="containerDivId"></div>
 </body>
 
