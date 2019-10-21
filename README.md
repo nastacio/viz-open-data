@@ -1,60 +1,38 @@
 # viz-open-data
-Example of Kabanero java-microprofile application using a Cognos dashboard to visualize open data
+Example of [Kabanero](https://kabanero.io) java-microprofile application using a hosted service instance of [Cognos Dashboard Embedded](https://www.ibm.com/us-en/marketplace/cognos-dashboard-embedded) to visualize various data sets.
 
-## Setup
+This purpose of this example is to show how an external service reference can be integrated into the Kabanero development flow, from local runs with `appsody run` to runs in a local cluster with `appsody deploy`. 
 
-Create instance of Cognos Dashboard Embedded:
+## Create the service instance
 
-https://cloud.ibm.com/catalog/services/ibm-cognos-dashboard-embedded
+- Cognos Dashboard Embedded is exclusive to the IBM Cloud, so you need to [create an IBM Cloud account](https://cloud.ibm.com/registration)
+
+- [Install the IBM Cloud CLI](https://cloud.ibm.com/docs/cli)
+
+- [Create an IBM Cloud API Key](https://cloud.ibm.com/iam/apikeys). Copy the "API key" value and paste it somewhere safe. It will be used later to login via command-line interface and referenced as `${IBMCLOUD_API_KEY}` in the instructions. 
+
+- Create a "Lite" plan instance of Cognos Dashboard Embedded. That is a free service that gets deleted after 30 days of inactivity.
+
 
 ```
+ibmcloud login --apikey ${IBMCLOUD_API_KEY}
+ 
 ibmcloud resource service-instance-create open-data-cognos-de dynamic-dashboard-embedded lite us-south -g default
-
-ibmcloud resource service-alias-create open-data-cognos-de --instance-name open-data-cognos-de -s dev
 ```
 
-
-Create a service key for the service instance:
-
-```
-ibmcloud service key-create open-data-cognos-de dashboard_key
-```
-
+- Create the credentials and store them in a properties file that you can reference later when running the application locally:
 
 ```
-curl -X POST "https://dde-us-south.analytics.ibm.com/daas/v1/session" -H "accept: application/json" -H  "authorization: Basic <base64 client_id:client_secret>" -H  "Content-Type: application/json" -d "{  \"expiresIn\": 3600,  \"webDomain\": \"https://dde-us-south.analytics.ibm.com\"}"
+ibmcloud resource service-key-create cognos-dashboard-key Reader --instance-name open-data-cognos-de 
+
+ibmcloud resource service-key cognos-dashboard-key -g default --output json
+
+cognos_credentials="$(echo $(ibmcloud resource service-key cognos-dashboard-key -g default --output json | grep credentials -A 20) | sed "s|.*\({.*}\).*|cognos_binding=\1|")"
+cat > ~/tmp/sample_cognos_binding.txt << EOF
+${cognos_credentials}
+EOF
 ```
 
-Configure kubectl to point to IBM Cloud cluster
-eval $(ibmcloud ks cluster config --cluster kab -s)
-
-
-```
-public_ip=$(ibmcloud cs workers --cluster ${cluster_name} --json | grep publicIP | cut -d "\"" -f 4)
-
-public_port=$(kubectl get service viz-open-data -o jsonpath={.spec.ports[0].nodePort})
-
-echo "http://${public_ip}:${public_port}"
-
-```
-
-
-Bind the service to the cluster
-
-ibmcloud ks cluster service bind --cluster kab -n default --service open-data-cognos-de 
-
-
-Reference to "envFrom" "secretKeyRef"
-https://github.com/appsody/appsody-operator/blob/master/doc/user-guide.md
-
-
-Create truststore and add Cognos service certificate
-```
-keytool -importkeystore -srckeystore /opt/java/openjdk/jre/lib/security/cacerts -keystore /Users/nastacio/github.com/viz-open-data/src/main/liberty/config/resources/security/truststore.jks -deststoretype JKS -deststorepass mpKeystore -srcstorepass changeit
-
-keytool -importcert -file /Users/nastacio/github.com/viz-open-data/src/main/resources/us-southdynamic-dashboard-embeddedcloudibmcom.crt -keystore  /Users/nastacio/github.com/viz-open-data/src/main/liberty/config/resources/security/truststore.jks -noprompt -storetype JKS -storepass mpKeystore
-
-keytool -importcert -file /project/user-app/src/main/resources/us-southdynamic-dashboard-embeddedcloudibmcom.crt -alias ussouthcde -keystore  /project/user-app/src/main/liberty/config/resources/security/truststore.p12 -noprompt -storetype PKCS12 -storepass mpKeystore
 
 ```
 
@@ -65,8 +43,40 @@ appsody run --docker-options="--env-file=/Users/nastacio/tmp/bindings.txt"
 ```
 
 
-Add Kabanero repository to appsody list of repositories;
+
+## Remote Deployment - IBM cloud
+
+
+
+Configure kubectl to point to IBM Cloud cluster
 
 ```
-appsody repo add kabanero https://github.com/kabanero-io/collections/releases/download/0.2.0/kabanero-index.yaml
+eval $(ibmcloud ks cluster config --cluster kab -s)
 ```
+
+
+Bind the service to the cluster
+
+```
+ibmcloud ks cluster service bind --cluster kab --service open-data-cognos-de -n default
+```
+ 
+
+Deploy application
+
+```
+appsody deploy --push
+```
+
+
+Show application URL
+
+```
+public_ip=$(ibmcloud cs workers --cluster ${cluster_name} --json | grep publicIP | cut -d "\"" -f 4)
+
+public_port=$(kubectl get service viz-open-data -o jsonpath={.spec.ports[0].nodePort})
+
+echo "http://${public_ip}:${public_port}"
+
+```
+

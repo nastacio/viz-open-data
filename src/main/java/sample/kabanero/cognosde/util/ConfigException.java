@@ -13,33 +13,34 @@
 *  See the License for the specific language governing permissions and
 *  limitations under the License.
 ***************************************************************************** {COPYRIGHT-END} **/
-package nastacio.cognosde.exceptions;
+package sample.kabanero.cognosde.util;
 
 /**
- * Base exception for the whole application.
+ * 
  * 
  * @author Denilson Nastacio
+ *
  */
 @SuppressWarnings("serial")
-public class CognosException extends Exception {
+public class ConfigException extends Exception {
 
     /**
      * 
      */
-    public CognosException() {
+    public ConfigException() {
     }
 
     /**
      * @param message
      */
-    public CognosException(String message) {
+    public ConfigException(String message) {
         super(message);
     }
 
     /**
      * @param cause
      */
-    public CognosException(Throwable cause) {
+    public ConfigException(Throwable cause) {
         super(cause);
     }
 
@@ -47,7 +48,7 @@ public class CognosException extends Exception {
      * @param message
      * @param cause
      */
-    public CognosException(String message, Throwable cause) {
+    public ConfigException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -57,7 +58,7 @@ public class CognosException extends Exception {
      * @param enableSuppression
      * @param writableStackTrace
      */
-    public CognosException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public ConfigException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 

@@ -1,0 +1,110 @@
+{
+	"name": "New dashboard",
+	"layout": {
+		"id": "page0",
+		"items": [
+			{
+				"id": "page1",
+				"items": [
+					{
+						"id": "page2",
+						"css": "templateBox aspectRatio_default",
+						"items": [
+							{
+								"id": "page3",
+								"style": {
+									"top": "0%",
+									"left": "0%",
+									"right": "50%",
+									"bottom": "75%"
+								},
+								"type": "templateDropZone",
+								"templateName": "dz1"
+							},
+							{
+								"id": "page4",
+								"css": "noBorderLeft",
+								"style": {
+									"top": "0%",
+									"left": "50%",
+									"right": "0%",
+									"bottom": "75%"
+								},
+								"type": "templateDropZone",
+								"templateName": "dz3"
+							},
+							{
+								"id": "page5",
+								"css": "noBorderTop",
+								"style": {
+									"top": "25%",
+									"left": "0%",
+									"right": "0%",
+									"bottom": "0%"
+								},
+								"type": "templateDropZone",
+								"templateName": "dz2"
+							}
+						],
+						"type": "scalingAbsolute"
+					}
+				],
+				"type": "container",
+				"title": {
+					"translationTable": {
+						"Default": "Tab 1"
+					}
+				},
+				"templateName": "Template3"
+			},
+			{
+				"id": "model0000016dec12ecf8_00000000",
+				"items": [
+					{
+						"id": "model0000016dec12ecf9_00000000",
+						"css": "templateBox aspectRatio_default",
+						"items": [
+							{
+								"id": "model0000016dec12ecfa_00000000",
+								"style": {
+									"top": "0%",
+									"left": "0%",
+									"right": "0%",
+									"bottom": "0%"
+								},
+								"type": "templateDropZone"
+							}
+						],
+						"type": "scalingAbsolute"
+					}
+				],
+				"type": "container",
+				"title": {
+					"translationTable": {
+						"Default": "Tab 2"
+					}
+				},
+				"templateName": "Template1"
+			}
+		],
+		"style": {
+			"height": "100%"
+		},
+		"type": "tab"
+	},
+	"theme": "defaultTheme",
+	"version": 1009,
+	"eventGroups": [],
+	"properties": {
+		"defaultLocale": "Default"
+	},
+	"pageContext": [],
+	"dataSources": {
+		"version": "1.0",
+		"sources": []
+	},
+	"drillThrough": [],
+	"widgets": {
+		
+	}
+}

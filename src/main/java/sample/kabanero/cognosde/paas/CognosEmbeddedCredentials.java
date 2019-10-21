@@ -13,24 +13,22 @@
 *  See the License for the specific language governing permissions and
 *  limitations under the License.
 ***************************************************************************** {COPYRIGHT-END} **/
-package nastacio.cognosde.paas;
+package sample.kabanero.cognosde.paas;
 
 /**
+ * 
+ * 
  * @author Denilson Nastacio
- *
  */
-public class DashDBCredentials {
+public class CognosEmbeddedCredentials {
 
-    public String db;
-    public String dsn;
-    public String host;
-    public String hostname;
-    public String https_url;
-    public String jdbcurl;
-    public String password;
-    public int    port;
-    public String ssldsn;
-    public String ssljdbcurl;
-    public String uri;
-    public String username;
+    public String api_endpoint_url;
+    public String apikey;
+    public String client_id;
+    public String client_secret;
+    public String iam_apikey_description;
+    public String iam_apikey_name;
+    public String iam_role_crn;
+    public String iam_serviceid_crn;
+
 }

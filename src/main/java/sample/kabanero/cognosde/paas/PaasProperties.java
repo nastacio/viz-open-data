@@ -13,7 +13,7 @@
 *  See the License for the specific language governing permissions and
 *  limitations under the License.
 ***************************************************************************** {COPYRIGHT-END} **/
-package nastacio.cognosde.paas;
+package sample.kabanero.cognosde.paas;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 
-import nastacio.cognosde.exceptions.CognosException;
+import sample.kabanero.cognosde.exceptions.CognosException;
 
 /**
  * Contains all runtime properties stored in the PaaS subsystem in association
@@ -36,10 +36,13 @@ import nastacio.cognosde.exceptions.CognosException;
 public class PaasProperties {
 
     /**
-     * Cloud Foundry VCAP environment variable for services
-     */
-    private static final String   VCAP_SERVICES    = "binding";
+	 * K8S credential binding for Cognos Dashboard Embedded
+	 */
+	private static final String COGNOS_SERVICES = "cognos_binding";
 
+	/**
+	 * Credentials pulled out of credential binding
+	 */
     private CognosEmbeddedCredentials cognosService;
 
     /**
@@ -78,9 +81,9 @@ public class PaasProperties {
     }
 
     /**
-     * Retrieves the Cloud Foundry VCAP environment settings for this
-     * application instance.
-     */
+	 * Retrieves the PaaS settings for this application instance, such as credential
+	 * bindings.
+	 */
     private void readPaaSProperties() throws CognosException {
         readPaaSServiceProperties();
     }
@@ -89,14 +92,14 @@ public class PaasProperties {
      * @throws CognosException
      */
     private void readPaaSServiceProperties() throws CognosException {
-        String vcapServices = System.getenv(VCAP_SERVICES);
-        if (vcapServices == null) {
+		String serviceBinding = System.getenv(COGNOS_SERVICES);
+		if (serviceBinding == null) {
             String errMsg = MessageFormat.format("No {0} environment variable containing the service definitions.",
-                    VCAP_SERVICES);
+					COGNOS_SERVICES);
             throw new CognosException(errMsg);
         }
 
-        StringReader jsonIoReader = new StringReader(vcapServices);
+		StringReader jsonIoReader = new StringReader(serviceBinding);
         try (Jsonb jsonb = JsonbBuilder.create()) {
             cognosService = jsonb.fromJson(jsonIoReader, CognosEmbeddedCredentials.class);
         } catch (IOException e) {

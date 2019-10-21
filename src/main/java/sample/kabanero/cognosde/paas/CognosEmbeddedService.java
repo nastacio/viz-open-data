@@ -13,20 +13,30 @@
 *  See the License for the specific language governing permissions and
 *  limitations under the License.
 ***************************************************************************** {COPYRIGHT-END} **/
-package nastacio.cognosde.paas;
+package sample.kabanero.cognosde.paas;
 
 /**
  * @author Denilson Nastacio
  *
  */
-public class DashDBService {
+public class CognosEmbeddedService {
 
-    public DashDBCredentials credentials;
+    public String label;
+    public String name;
+    public String plan;
+    public String provider;
+    public String syslog_drain_url;
+    public CognosEmbeddedCredentials credentials;
 
-    public String            label;
-    public String            name;
-    public String            plan;
-    public String            provider;
-    public String            syslog_drain_url;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "CognosEmbeddedService [label=" + label + ", name=" + name + ", plan=" + plan + ", provider=" + provider
+                + ", syslog_drain_url=" + syslog_drain_url + ", creds=" + credentials.toString() + "]";
+    }
 
 }

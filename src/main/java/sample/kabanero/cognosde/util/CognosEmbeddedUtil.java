@@ -13,7 +13,7 @@
 *  See the License for the specific language governing permissions and
 *  limitations under the License.
 ***************************************************************************** {COPYRIGHT-END} **/
-package nastacio.cognosde.util;
+package sample.kabanero.cognosde.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,9 +39,9 @@ import javax.json.bind.JsonbBuilder;
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 
-import nastacio.cognosde.exceptions.CognosException;
-import nastacio.cognosde.paas.CognosEmbeddedCredentials;
-import nastacio.cognosde.paas.PaasProperties;
+import sample.kabanero.cognosde.exceptions.CognosException;
+import sample.kabanero.cognosde.paas.CognosEmbeddedCredentials;
+import sample.kabanero.cognosde.paas.PaasProperties;
 
 /**
  * 
@@ -198,6 +198,7 @@ public class CognosEmbeddedUtil {
 				sb.append(line);
 			}
 			String contentStr = sb.toString();
+			System.out.println(contentStr);
 	        Jsonb jsonb = JsonbBuilder.create();
 			s = jsonb.fromJson(contentStr, CognosEmbeddedSession.class);
 			logger.info(() -> MessageFormat.format("Read session context: {0}", contentStr));
