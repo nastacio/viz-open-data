@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8' ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+	</head>
+	<body>
+		<h1 id="viz-open-data">viz-open-data</h1>
+		<p>This project is an example of a 
+			<a href="https://kabanero.io">Kabanero</a> application that can connect to an instance of a remote service.
+		</p>
+		<p>The application was developed using the java-microprofile collection and the service instance is a 
+			<a href="https://www.ibm.com/us-en/marketplace/cognos-dashboard-embedded">Cognos Dashboard Embedded</a> , paired with a few open data sets from the 
+			<a href="http://data.un.org/">undata program</a>.
+		</p>
+		<p>This purpose of this example is to show how an external service reference can be integrated into the Kabanero development flow, so that the application code can access the service references whether the application is running on the developer's laptop with 
+			<code>appsody run</code> or running on a remote cluster after being deployed with 
+			<code>appsody deploy</code> or with a 
+			<a href="https://github.com/tektoncd">Tektoncd pipeline</a>.
+		</p>
+		<h2 id="create-the-service-instance">Create the service instance</h2>
+		<ul>
+			<li>Cognos Dashboard Embedded is exclusive to the IBM Cloud, so you need to 
+				<a href="https://cloud.ibm.com/registration">create an IBM Cloud account</a>
+			</li>
+			<li>
+				<a href="https://cloud.ibm.com/docs/cli">Install the IBM Cloud CLI</a>
+			</li>
+			<li>
+				<a href="https://cloud.ibm.com/iam/apikeys">Create an IBM Cloud API Key</a>. Copy the "API key" value and paste it somewhere safe. It will be used later to login via command-line interface and referenced as 
+				<code>${IBMCLOUD_API_KEY}</code> in the instructions. 
+			</li>
+			<li>Create a "Lite" plan instance of Cognos Dashboard Embedded. That is a free service that gets deleted after 30 days of inactivity.</li>
+		</ul>
+		<pre>
+		<code>ibmcloud login --apikey ${IBMCLOUD_API_KEY}
+ 
+ibmcloud resource service-instance-create open-data-cognos-de dynamic-dashboard-embedded lite us-south -g default</code></pre>
+		<ul>
+			<li>Create the credentials and store them in a properties file that you can reference later when running the application locally:</li>
+		</ul>
+		<pre><code>ibmcloud resource service-key-create cognos-dashboard-key Reader --instance-name open-data-cognos-de 
+
+ibmcloud resource service-key cognos-dashboard-key -g default --output json
+
+cognos_credentials="$(echo $(ibmcloud resource service-key cognos-dashboard-key -g default --output json | grep credentials -A 20) | sed "s|.*\({.*}\).*|cognos_binding=\1|")"
+cat &gt; ~/tmp/sample_cognos_binding.txt &lt;&lt; EOF
+${cognos_credentials}
+EOF</code></pre>
+		<p>Run the server with binding as an environment variable:</p>
+		<pre><code>appsody run --docker-options="--env-file=/Users/nastacio/tmp/bindings.txt"</code></pre>
+		<h2 id="remote-deployment-ibm-cloud">Remote Deployment - IBM cloud</h2>
+		<p>Configure kubectl to point to IBM Cloud cluster</p>
+		<pre><code>eval $(ibmcloud ks cluster config --cluster kab -s)</code></pre>
+		<p>Bind the service to the cluster</p>
+		<pre><code>ibmcloud ks cluster service bind --cluster kab --service open-data-cognos-de -n default</code></pre>
+		<p>Deploy application</p>
+		<pre><code>appsody deploy --push</code></pre>
+		<p>Show application URL</p>
+		<pre><code>public_ip=$(ibmcloud cs workers --cluster ${cluster_name} --json | grep publicIP | cut -d "\"" -f 4)
+
+public_port=$(kubectl get service viz-open-data -o jsonpath={.spec.ports[0].nodePort})
+
+echo "http://${public_ip}:${public_port}"
+</code></pre>
+	</body>
+</html>

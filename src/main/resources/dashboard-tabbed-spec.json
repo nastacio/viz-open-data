@@ -1,49 +1,58 @@
 {
-	"name": "New dashboard",
+	"name": "Open Data Dashboard",
 	"layout": {
 		"id": "page0",
 		"items": [
 			{
-				"id": "page1",
+				"id": "model0000016deed55e9c_00000000",
 				"items": [
 					{
-						"id": "page2",
+						"id": "model0000016deed55e9c_00000001",
 						"css": "templateBox aspectRatio_default",
 						"items": [
 							{
-								"id": "page3",
+								"id": "model0000016de1a88b7f_00000002",
 								"style": {
-									"top": "0%",
 									"left": "0%",
-									"right": "50%",
-									"bottom": "75%"
+									"top": "0%",
+									"height": "100%",
+									"width": "50%"
 								},
 								"type": "templateDropZone",
-								"templateName": "dz1"
+								"relatedLayouts": "|model0000016def1fb104_00000000|"
 							},
 							{
-								"id": "page4",
-								"css": "noBorderLeft",
+								"id": "model0000016de1a88b7f_00000003",
 								"style": {
-									"top": "0%",
 									"left": "50%",
-									"right": "0%",
-									"bottom": "75%"
+									"top": "0%",
+									"height": "100%",
+									"width": "50%"
 								},
 								"type": "templateDropZone",
-								"templateName": "dz3"
+								"relatedLayouts": "|model0000016def210954_00000000|"
 							},
 							{
-								"id": "page5",
-								"css": "noBorderTop",
+								"id": "model0000016def210954_00000000",
 								"style": {
-									"top": "25%",
-									"left": "0%",
-									"right": "0%",
-									"bottom": "0%"
+									"left": "50.06666666666667%",
+									"top": "0.12121212121212122%",
+									"height": "100%",
+									"width": "50%"
 								},
-								"type": "templateDropZone",
-								"templateName": "dz2"
+								"type": "widget",
+								"relatedLayouts": "model0000016de1a88b7f_00000003"
+							},
+							{
+								"id": "model0000016def1fb104_00000000",
+								"style": {
+									"top": "0.12121212121212122%",
+									"left": "0.06666666666666667%",
+									"height": "100%",
+									"width": "50%"
+								},
+								"type": "widget",
+								"relatedLayouts": "model0000016de1a88b7f_00000002"
 							}
 						],
 						"type": "scalingAbsolute"
@@ -52,27 +61,61 @@
 				"type": "container",
 				"title": {
 					"translationTable": {
-						"Default": "Tab 1"
+						"Default": "R&D Population"
 					}
 				},
-				"templateName": "Template3"
+				"templateName": "Template1"
 			},
 			{
-				"id": "model0000016dec12ecf8_00000000",
+				"id": "model0000016deed4e7f1_00000000",
 				"items": [
 					{
-						"id": "model0000016dec12ecf9_00000000",
+						"id": "model0000016deed4e7f1_00000001",
 						"css": "templateBox aspectRatio_default",
 						"items": [
 							{
-								"id": "model0000016dec12ecfa_00000000",
+								"id": "model0000016de1a88b7f_00000004",
 								"style": {
-									"top": "0%",
 									"left": "0%",
-									"right": "0%",
-									"bottom": "0%"
+									"top": "0%",
+									"height": "100%",
+									"width": "50%"
 								},
-								"type": "templateDropZone"
+								"type": "templateDropZone",
+								"relatedLayouts": "|model0000016def222a1d_00000000|"
+							},
+							{
+								"id": "model0000016de1a88b7f_00000005",
+								"style": {
+									"left": "50%",
+									"top": "0%",
+									"height": "100%",
+									"width": "50%"
+								},
+								"type": "templateDropZone",
+								"relatedLayouts": "|model0000016def227afe_00000000|"
+							},
+							{
+								"id": "model0000016def227afe_00000000",
+								"style": {
+									"top": "0.12121212121212122%",
+									"left": "50.06666666666667%",
+									"height": "100%",
+									"width": "50%"
+								},
+								"type": "widget",
+								"relatedLayouts": "model0000016de1a88b7f_00000005"
+							},
+							{
+								"id": "model0000016def222a1d_00000000",
+								"style": {
+									"top": "0.12121212121212122%",
+									"left": "0.06666666666666667%",
+									"height": "100%",
+									"width": "50%"
+								},
+								"type": "widget",
+								"relatedLayouts": "model0000016de1a88b7f_00000004"
 							}
 						],
 						"type": "scalingAbsolute"
@@ -81,7 +124,7 @@
 				"type": "container",
 				"title": {
 					"translationTable": {
-						"Default": "Tab 2"
+						"Default": "Public Expenditure on Education"
 					}
 				},
 				"templateName": "Template1"
@@ -94,17 +137,913 @@
 	},
 	"theme": "defaultTheme",
 	"version": 1009,
-	"eventGroups": [],
+	"eventGroups": [
+		{
+			"id": "model0000016deed55e9c_00000000:1",
+			"widgetIds": [
+				"model0000016def1fb104_00000000",
+				"model0000016def210954_00000000"
+			]
+		},
+		{
+			"id": "model0000016deed4e7f1_00000000:1",
+			"widgetIds": [
+				"model0000016def222a1d_00000000",
+				"model0000016def227afe_00000000"
+			]
+		}
+	],
 	"properties": {
 		"defaultLocale": "Default"
 	},
-	"pageContext": [],
+	"pageContext": [
+		{
+			"origin": "filter",
+			"table": "",
+			"alias": "0",
+			"sourceId": "model00000165be83f67f_00000001",
+			"scope": "model0000016deed55e9c_00000000",
+			"hierarchyNames": [
+				"World Region"
+			],
+			"hierarchyUniqueNames": [
+				"Data_.RegionName"
+			],
+			"isNamedSet": false
+		},
+		{
+			"origin": "filter",
+			"table": "",
+			"alias": "0",
+			"sourceId": "model00000165be83f67f_00000001",
+			"scope": "model0000016deed55e9c_00000000",
+			"hierarchyNames": [
+				"Year"
+			],
+			"hierarchyUniqueNames": [
+				"Data_.Year_"
+			],
+			"isNamedSet": false
+		},
+		{
+			"origin": "filter",
+			"table": "",
+			"alias": "0",
+			"sourceId": "model00000165be83f67f_00000001",
+			"scope": "model0000016deed55e9c_00000000",
+			"hierarchyNames": [
+				"Series"
+			],
+			"hierarchyUniqueNames": [
+				"Data_.Series"
+			],
+			"isNamedSet": false
+		},
+		{
+			"origin": "filter",
+			"table": "",
+			"alias": "0",
+			"sourceId": "model00000165be83f67f_00000002",
+			"scope": "model0000016deed4e7f1_00000000",
+			"hierarchyNames": [
+				"World Region"
+			],
+			"hierarchyUniqueNames": [
+				"Data_.RegionName"
+			],
+			"isNamedSet": false
+		},
+		{
+			"origin": "filter",
+			"table": "",
+			"alias": "0",
+			"sourceId": "model00000165be83f67f_00000002",
+			"scope": "model0000016deed4e7f1_00000000",
+			"hierarchyNames": [
+				"Year"
+			],
+			"hierarchyUniqueNames": [
+				"Data_.Year_"
+			],
+			"isNamedSet": false
+		},
+		{
+			"origin": "filter",
+			"table": "",
+			"alias": "0",
+			"sourceId": "model00000165be83f67f_00000002",
+			"scope": "model0000016deed4e7f1_00000000",
+			"hierarchyNames": [
+				"Series"
+			],
+			"hierarchyUniqueNames": [
+				"Data_.Series"
+			],
+			"isNamedSet": false
+		}
+	],
 	"dataSources": {
 		"version": "1.0",
-		"sources": []
+		"sources": [
+			{
+				"id": "model00000165be83f67f_00000001",
+				"assetId": "assetId00000165be83f67e_00000000",
+				"clientId": "un.r-and-d",
+				"module": {
+					"xsd": "https://ibm.com/daas/module/1.0/module.xsd",
+					"source": {
+						"id": "un.r-and-d",
+						"srcUrl": {
+							"sourceUrl": "https://raw.githubusercontent.com/nastacio/viz-open-data/master/src/main/webapp/csv/OpenData-UN-RandD.csv",
+							"mimeType": "text/csv",
+							"property": []
+						}
+					},
+					"table": {
+						"name": "Data",
+						"column": [
+							{
+								"name": "RegionCode",
+								"datatype": "NVARCHAR(64)",
+								"nullable": true,
+								"description": "World Region Code",
+								"label": "World Region Code",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "RegionName",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "World Region",
+								"label": "World Region",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "Year_",
+								"datatype": "NVARCHAR(4)",
+								"nullable": true,
+								"description": "Year",
+								"label": "Year",
+								"usage": "attribute",
+								"regularAggregate": "none",
+								"taxonomyFamily": "cYear"
+							},
+							{
+								"name": "Series",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "Series",
+								"label": "Series",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "Value",
+								"datatype": "DOUBLE",
+								"nullable": true,
+								"description": "People",
+								"label": "People",
+								"usage": "fact",
+								"regularAggregate": "average"
+							},
+							{
+								"name": "Footnote",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "Footnote",
+								"label": "Footnote",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "Source",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "Source",
+								"label": "Source",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							}
+						]
+					},
+					"label": "data.global.r-and-d",
+					"identifier": "un-r-and-d"
+				},
+				"name": "R&D Population",
+				"shaping": {
+					"shapingId": "shaping0000016def2b9389_00000000",
+					"embeddedModuleUpToDate": false,
+					"moserJSON": {
+						"version": "5.0.1",
+						"container": "C",
+						"useSpec": [
+							{
+								"identifier": "ES",
+								"type": "url",
+								"storeID": "baseModule",
+								"imports": "*"
+							}
+						],
+						"expressionLocale": "en-us",
+						"drillGroup": [
+							{
+								"segment": [
+									{
+										"ref": "Data_.RegionName",
+										"identifier": "RegionName",
+										"label": "World Region"
+									},
+									{
+										"ref": "Data_.Year_",
+										"identifier": "Year_",
+										"label": "Year"
+									},
+									{
+										"ref": "Data_.Series",
+										"identifier": "Series",
+										"label": "Series"
+									}
+								],
+								"identifier": "World_Region_Series",
+								"label": "World Region - Series",
+								"propertyOverride": [
+									"NEW"
+								],
+								"idForExpression": "World_Region_Series"
+							}
+						],
+						"dataRetrievalMode": "liveConnection",
+						"identifier": "newModel",
+						"label": "newModel"
+					}
+				}
+			},
+			{
+				"id": "model00000165be83f67f_00000002",
+				"assetId": "assetId00000165be83f67e_00000001",
+				"clientId": "viz-open-data",
+				"module": {
+					"xsd": "https://ibm.com/daas/module/1.0/module.xsd",
+					"source": {
+						"id": "un.edu-expenditure",
+						"srcUrl": {
+							"sourceUrl": "https://raw.githubusercontent.com/nastacio/viz-open-data/master/src/main/webapp/csv/SYB62_T09_201905_Public%20Expenditure%20on%20Education.csv",
+							"mimeType": "text/csv",
+							"property": []
+						}
+					},
+					"table": {
+						"name": "Data",
+						"column": [
+							{
+								"name": "RegionCode",
+								"datatype": "NVARCHAR(64)",
+								"nullable": true,
+								"description": "World Region Code",
+								"label": "World Region Code",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "RegionName",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "World Region",
+								"label": "World Region",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "Year_",
+								"datatype": "NVARCHAR(4)",
+								"nullable": true,
+								"description": "Year",
+								"label": "Year",
+								"usage": "attribute",
+								"regularAggregate": "none",
+								"taxonomyFamily": "cYear"
+							},
+							{
+								"name": "Series",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "Series",
+								"label": "Series",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "Value",
+								"datatype": "DOUBLE",
+								"nullable": true,
+								"description": "%",
+								"label": "%",
+								"usage": "fact",
+								"regularAggregate": "average"
+							},
+							{
+								"name": "Footnote",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "Footnote",
+								"label": "Footnote",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "Source",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "Source",
+								"label": "Source",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							}
+						]
+					},
+					"label": "data.global.edu-spend",
+					"identifier": "global.edu-spend"
+				},
+				"name": "Education Expenditures",
+				"shaping": {
+					"shapingId": "shaping0000016def2bc7e5_00000000",
+					"embeddedModuleUpToDate": false,
+					"moserJSON": {
+						"version": "5.0.1",
+						"container": "C",
+						"useSpec": [
+							{
+								"identifier": "ES",
+								"type": "url",
+								"storeID": "baseModule",
+								"imports": "*"
+							}
+						],
+						"expressionLocale": "en-us",
+						"drillGroup": [
+							{
+								"segment": [
+									{
+										"ref": "Data_.RegionName",
+										"identifier": "RegionName",
+										"label": "World Region"
+									},
+									{
+										"ref": "Data_.Year_",
+										"identifier": "Year_",
+										"label": "Year"
+									},
+									{
+										"ref": "Data_.Series",
+										"identifier": "Series",
+										"label": "Series"
+									}
+								],
+								"identifier": "World_Region_Series",
+								"label": "World Region - Series",
+								"propertyOverride": [
+									"NEW"
+								],
+								"idForExpression": "World_Region_Series"
+							}
+						],
+						"dataRetrievalMode": "liveConnection",
+						"identifier": "newModel",
+						"label": "newModel"
+					}
+				}
+			},
+			{
+				"id": "model00000165be83f67f_00000003",
+				"assetId": "assetId00000165be83f67e_00000003",
+				"clientId": "viz-open-data",
+				"module": {
+					"xsd": "https://ibm.com/daas/module/1.0/module.xsd",
+					"source": {
+						"id": "un.ratio-girls-boys",
+						"srcUrl": {
+							"sourceUrl": "https://github.com/nastacio/viz-open-data/blob/master/src/main/webapp/csv/SYB62_T06_Ratio%20of%20Girls%20to%20Boys%20in%20Education.csv",
+							"mimeType": "text/csv",
+							"property": []
+						}
+					},
+					"table": {
+						"name": "Data",
+						"column": [
+							{
+								"name": "RegionCode",
+								"datatype": "NVARCHAR(64)",
+								"nullable": true,
+								"description": "World Region Code",
+								"label": "World Region Code",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "RegionName",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "World Region",
+								"label": "World Region",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "Year_",
+								"datatype": "NVARCHAR(4)",
+								"nullable": true,
+								"description": "Year",
+								"label": "Year",
+								"usage": "attribute",
+								"regularAggregate": "none",
+								"taxonomyFamily": "cYear"
+							},
+							{
+								"name": "Series",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "Series",
+								"label": "Series",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "Value",
+								"datatype": "DOUBLE",
+								"nullable": true,
+								"description": "Value",
+								"label": "Value",
+								"usage": "fact",
+								"regularAggregate": "average"
+							},
+							{
+								"name": "Footnote",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "Footnote",
+								"label": "Footnote",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "Source",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "Source",
+								"label": "Source",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							}
+						]
+					},
+					"label": "data.girls-boys-ratio",
+					"identifier": "girls-boys-ratio"
+				},
+				"name": "Ratio of Girls to Boys in Education",
+				"shaping": {
+					"embeddedModuleUpToDate": true
+				}
+			},
+			{
+				"id": "model00000165be83f67f_00000004",
+				"assetId": "assetId00000165be83f67e_00000004",
+				"clientId": "viz-open-data",
+				"module": {
+					"xsd": "https://ibm.com/daas/module/1.0/module.xsd",
+					"source": {
+						"id": "un.women-parliament-seat",
+						"srcUrl": {
+							"sourceUrl": "https://github.com/nastacio/viz-open-data/blob/master/src/main/webapp/csv/SYB62_T05_201905_Seats%20held%20by%20Women%20in%20Parliament.csv",
+							"mimeType": "text/csv",
+							"property": []
+						}
+					},
+					"table": {
+						"name": "Data",
+						"column": [
+							{
+								"name": "RegionCode",
+								"datatype": "NVARCHAR(64)",
+								"nullable": true,
+								"description": "World Region Code",
+								"label": "World Region Code",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "RegionName",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "World Region",
+								"label": "World Region",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "Year_",
+								"datatype": "NVARCHAR(4)",
+								"nullable": true,
+								"description": "Year",
+								"label": "Year",
+								"usage": "attribute",
+								"regularAggregate": "none",
+								"taxonomyFamily": "cYear"
+							},
+							{
+								"name": "Series",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "Series",
+								"label": "Series",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "Value",
+								"datatype": "DOUBLE",
+								"nullable": true,
+								"description": "Value",
+								"label": "Value",
+								"usage": "fact",
+								"regularAggregate": "average"
+							},
+							{
+								"name": "Footnote",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "Footnote",
+								"label": "Footnote",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							},
+							{
+								"name": "Source",
+								"datatype": "NVARCHAR(256)",
+								"nullable": true,
+								"description": "Source",
+								"label": "Source",
+								"usage": "attribute",
+								"regularAggregate": "none"
+							}
+						]
+					},
+					"label": "data.global.parliament-seat",
+					"identifier": "global.parliament-seat"
+				},
+				"name": "Seats held by Women in Parliament",
+				"shaping": {
+					"embeddedModuleUpToDate": true
+				}
+			}
+		]
 	},
 	"drillThrough": [],
 	"widgets": {
-		
+		"model0000016def1fb104_00000000": {
+			"id": "model0000016def1fb104_00000000",
+			"data": {
+				"dataViews": [
+					{
+						"modelRef": "model00000165be83f67f_00000001",
+						"dataItems": [
+							{
+								"id": "model0000016def1fcdc0_00000000",
+								"itemId": "Data_.RegionName",
+								"itemLabel": "World Region"
+							},
+							{
+								"id": "model0000016def1fdb60_00000000",
+								"itemId": "Data_.Value_",
+								"itemLabel": "Value",
+								"aggregate": "max"
+							}
+						],
+						"id": "model0000016def1fcdbf_00000000"
+					}
+				]
+			},
+			"visTypeLocked": true,
+			"slotmapping": {
+				"slots": [
+					{
+						"name": "locations",
+						"dataItems": [
+							"model0000016def1fcdc0_00000000"
+						],
+						"dataItemSettings": [],
+						"caption": "Locations",
+						"id": "locations",
+						"layerId": "data.region"
+					},
+					{
+						"name": "locationColor",
+						"dataItems": [
+							"model0000016def1fdb60_00000000"
+						],
+						"caption": "Location color",
+						"id": "locationColor",
+						"layerId": "data.region"
+					}
+				],
+				"layers": [
+					{
+						"type": "data.region",
+						"id": "data.region",
+						"dataViewId": "model0000016def1fcdbf_00000000"
+					}
+				]
+			},
+			"type": "live",
+			"visId": "com.ibm.vis.rave2bundletiledmap",
+			"name": {
+				"translationTable": {
+					
+				}
+			},
+			"borderColor": "color5",
+			"localFilters": [],
+			"properties": [
+				{
+					"id": "widget.legend.position",
+					"value": "bottom"
+				},
+				{
+					"id": "Mapbox.secretToken",
+					"value": "sk.eyJ1IjoiaWJtcmF2ZSIsImEiOiJjaXlrdjl6dzUwMDJlMnlwaXV3bTJtdGQ4In0.Ek4ZA_uWjmdwh9AzD-UWyg"
+				},
+				{
+					"id": "Mapbox.accountName",
+					"value": "ibmrave"
+				},
+				{
+					"id": "Mapbox.token",
+					"value": "pk.eyJ1IjoiaWJtcmF2ZSIsImEiOiJjaXRvZHFzdmYwM20zMnpzYmFxeHR4bTQyIn0.7rttWKsr9b1tVXpo0ZcWFw"
+				}
+			]
+		},
+		"model0000016def210954_00000000": {
+			"id": "model0000016def210954_00000000",
+			"data": {
+				"dataViews": [
+					{
+						"modelRef": "model00000165be83f67f_00000001",
+						"dataItems": [
+							{
+								"id": "model0000016def211877_00000002",
+								"itemId": "Data_.Value_",
+								"itemLabel": "Value",
+								"aggregate": "max"
+							},
+							{
+								"id": "model0000016def211f40_00000000",
+								"itemId": "Data_.Series",
+								"itemLabel": "Series"
+							},
+							{
+								"id": "model0000016def2144d9_00000000",
+								"itemId": "Data_.Year_",
+								"itemLabel": "Year",
+								"selection": [
+									{
+										"operation": "order",
+										"sort": {
+											"type": "asc",
+											"priority": 0,
+											"by": "caption"
+										}
+									}
+								]
+							}
+						],
+						"id": "model0000016def211877_00000001"
+					}
+				]
+			},
+			"visTypeLocked": true,
+			"slotmapping": {
+				"slots": [
+					{
+						"name": "color",
+						"dataItems": [
+							"model0000016def211f40_00000000"
+						],
+						"caption": "Color",
+						"id": "color"
+					},
+					{
+						"name": "values",
+						"dataItems": [
+							"model0000016def211877_00000002"
+						],
+						"caption": "Length",
+						"id": "values"
+					},
+					{
+						"name": "categories",
+						"dataItems": [
+							"model0000016def2144d9_00000000"
+						],
+						"dataItemSettings": [],
+						"caption": "Bars",
+						"id": "categories"
+					}
+				]
+			},
+			"type": "live",
+			"visId": "com.ibm.vis.rave2bundlecolumn",
+			"name": {
+				"translationTable": {
+					
+				}
+			},
+			"borderColor": "color5",
+			"localFilters": [],
+			"properties": [
+				{
+					"id": "widget.legend.position",
+					"value": "bottom"
+				}
+			]
+		},
+		"model0000016def222a1d_00000000": {
+			"id": "model0000016def222a1d_00000000",
+			"data": {
+				"dataViews": [
+					{
+						"modelRef": "model00000165be83f67f_00000002",
+						"dataItems": [
+							{
+								"id": "model0000016def224863_00000001",
+								"itemId": "Data_.RegionName",
+								"itemLabel": "World Region"
+							},
+							{
+								"id": "model0000016def225492_00000000",
+								"itemId": "Data_.Value_",
+								"itemLabel": "Value",
+								"aggregate": "max"
+							}
+						],
+						"id": "model0000016def224863_00000000"
+					}
+				]
+			},
+			"visTypeLocked": true,
+			"slotmapping": {
+				"slots": [
+					{
+						"name": "locations",
+						"dataItems": [
+							"model0000016def224863_00000001"
+						],
+						"dataItemSettings": [],
+						"caption": "Locations",
+						"id": "locations",
+						"layerId": "data.region"
+					},
+					{
+						"name": "locationColor",
+						"dataItems": [
+							"model0000016def225492_00000000"
+						],
+						"caption": "Location color",
+						"id": "locationColor",
+						"layerId": "data.region"
+					}
+				],
+				"layers": [
+					{
+						"type": "data.region",
+						"id": "data.region",
+						"dataViewId": "model0000016def224863_00000000"
+					}
+				]
+			},
+			"type": "live",
+			"visId": "com.ibm.vis.rave2bundletiledmap",
+			"name": {
+				"translationTable": {
+					
+				}
+			},
+			"borderColor": "color5",
+			"localFilters": [],
+			"properties": [
+				{
+					"id": "widget.legend.position",
+					"value": "bottom"
+				},
+				{
+					"id": "contColorPalette_data.region",
+					"value": "colorPalette3"
+				},
+				{
+					"id": "Mapbox.secretToken",
+					"value": "sk.eyJ1IjoiaWJtcmF2ZSIsImEiOiJjaXlrdjl6dzUwMDJlMnlwaXV3bTJtdGQ4In0.Ek4ZA_uWjmdwh9AzD-UWyg"
+				},
+				{
+					"id": "Mapbox.accountName",
+					"value": "ibmrave"
+				},
+				{
+					"id": "Mapbox.token",
+					"value": "pk.eyJ1IjoiaWJtcmF2ZSIsImEiOiJjaXRvZHFzdmYwM20zMnpzYmFxeHR4bTQyIn0.7rttWKsr9b1tVXpo0ZcWFw"
+				}
+			]
+		},
+		"model0000016def227afe_00000000": {
+			"id": "model0000016def227afe_00000000",
+			"data": {
+				"dataViews": [
+					{
+						"modelRef": "model00000165be83f67f_00000002",
+						"dataItems": [
+							{
+								"id": "model0000016def229088_00000002",
+								"itemId": "Data_.Year_",
+								"itemLabel": "Year",
+								"selection": [
+									{
+										"operation": "order",
+										"sort": {
+											"type": "asc",
+											"priority": 0,
+											"by": "caption"
+										}
+									}
+								]
+							},
+							{
+								"id": "model0000016def22a7f0_00000000",
+								"itemId": "Data_.Value_",
+								"itemLabel": "Value",
+								"aggregate": "max"
+							},
+							{
+								"id": "model0000016def22ceef_00000001",
+								"itemId": "Data_.Series",
+								"itemLabel": "Series"
+							}
+						],
+						"id": "model0000016def229088_00000001"
+					}
+				]
+			},
+			"visTypeLocked": true,
+			"slotmapping": {
+				"slots": [
+					{
+						"name": "categories",
+						"dataItems": [
+							"model0000016def229088_00000002"
+						],
+						"dataItemSettings": [],
+						"caption": "Bars",
+						"id": "categories"
+					},
+					{
+						"name": "values",
+						"dataItems": [
+							"model0000016def22a7f0_00000000"
+						],
+						"caption": "Length",
+						"id": "values"
+					},
+					{
+						"name": "color",
+						"dataItems": [
+							"model0000016def22ceef_00000001"
+						],
+						"caption": "Color",
+						"id": "color"
+					}
+				]
+			},
+			"type": "live",
+			"visId": "com.ibm.vis.rave2bundlecolumn",
+			"name": {
+				"translationTable": {
+					
+				}
+			},
+			"borderColor": "color5",
+			"localFilters": [],
+			"properties": [
+				{
+					"id": "maintainAxisScales",
+					"value": false
+				},
+				{
+					"id": "widget.legend.position",
+					"value": "bottom"
+				},
+				{
+					"id": "colorPalette",
+					"value": "colorPalette1"
+				}
+			]
+		}
 	}
 }

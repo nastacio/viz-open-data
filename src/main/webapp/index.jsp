@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Cognos Embedded Dashboard</title>
+<title>Open Data Analytics</title>
 <script src="https://dde-us-south.analytics.ibm.com/daas/CognosApi.js"></script>
 
 <script>

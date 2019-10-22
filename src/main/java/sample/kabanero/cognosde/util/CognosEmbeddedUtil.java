@@ -90,7 +90,7 @@ public class CognosEmbeddedUtil {
 	public String getDashboardSpec() throws CognosException {
 		StringBuilder sb = new StringBuilder();
 
-		try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("/dashboard-spec.json");
+		try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("/dashboard-tabbed-spec.json");
 				BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
 
 			String line = null;
@@ -198,7 +198,6 @@ public class CognosEmbeddedUtil {
 				sb.append(line);
 			}
 			String contentStr = sb.toString();
-			System.out.println(contentStr);
 	        Jsonb jsonb = JsonbBuilder.create();
 			s = jsonb.fromJson(contentStr, CognosEmbeddedSession.class);
 			logger.info(() -> MessageFormat.format("Read session context: {0}", contentStr));

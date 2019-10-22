@@ -35,7 +35,7 @@ If we wanted the whole "binding" key from the `binding-open-data-cognos-de` secr
 
 ### Map a secret key with a different name
 
-For applications using multiple bindings and in situations where the key name inside a secret clashes with the key name in a different secret, you want to tell the Appsody operator to assign different environment variable names to each secret key, which can be achieved with a `secretKeyRef` element inside `app-deploy.yaml`: 
+For applications using multiple bindings and in situations where the key name inside a secret clashes with the key name in a different secret, you want to tell the Appsody operator to assign different environment variable names to each secret key, which can be achieved with a `secretKeyRef` element: 
 
 ```
   env:
@@ -136,4 +136,3 @@ Add a plugin execution for the `maven-resources-plugin`, under the `build/plugin
 				</executions>
 			</plugin>
 ```
-

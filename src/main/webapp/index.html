@@ -1,33 +1,51 @@
-
-<html>
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Kabanero OpenViz</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
 <body>
-    <h1>Welcome to your Appsody Microservice</h1>
-    <p>Thanks for generating this project using Appsody.  Please see below for some extra information on each of the technologies:</p>
-<div>
-	<h2>Appsody</h2>
-	<p>
-        The <a href="https://appsody.dev/">Appsody project</a> is an open source project that provides a set of open source tools
-        and capabilities that simplifies the process of building and deploying cloud native applications.
-	</p>
+
+<div class="header">
+  <h1>Open Data Visualization</h1>
+  <p>From concept to deployment, with Kabanero</p>
 </div>
-<div>
-    <h2>MicroProfile</h2>
-    <p>
-        The <a href="http://microprofile.io/">MicroProfile project</a> is an open
-        community with the aim of optimizing Enterprise Java for a microservices
-        architecture.  MicroProfile will be evolving with guidance from the community.
-    </p>
-    <p>
-        If you want to share your thoughts you can post straight to the
-        <a href="https://groups.google.com/forum/#!forum/microprofile">MicroProfile Google group</a>.
-    </p>
+
+<div class="topnav">
+  <span class="a" onclick='document.getElementById("concepts").style.display = "block";document.getElementById("appdemo").style.display = "none"'>Concept</span>
+  <span class="a" onclick='document.getElementById("concepts").style.display = "none";document.getElementById("appdemo").style.display = "block"'>Demo</span>
 </div>
-<div>
-    <h2>Open Liberty</h2>
-    <p>
-        The <a href="http://openliberty.io/">Open Liberty project</a> is an open
-        community supporting Java EE and MicroProfile, a runtime starting fast and made for running cloud-native microservices.
-    </p>
+
+<div class="row">
+  <div class="leftcolumn">
+    <div id="concepts" class="card">
+      <h2 >How it works</h2>
+      <div><iframe height="600px;" style="width:100%;" src="https://www.youtube.com/embed/U5WPuenw3WE?autoplay=1&loop=1" frameborder="0" allow="accelerometer; modestbranding; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      
+    </div>
+    <div id="appdemo" class="card" style="display: none;">
+      <h2 >In action</h2>
+      <div><iframe height="1024px;" style="width:100%;" src="index.jsp"></iframe></div>
+      
+    </div>
+  </div>
+  <div class="rightcolumn">
+    <div class="card">
+      <h3>Follow Kabanero</h3>
+      <p><a href="https://twitter.com/KabaneroIO">On Twitter</a></p>
+      <p><a href="https://github.com/kabanero-io">On GitHub</a></p>
+    </div>
+    <div class="card">
+      <h3>Twitter Feed</h3>
+      <a class="twitter-timeline" href="https://twitter.com/KabaneroIO?ref_src=twsrc%5Etfw">Tweets by KabaneroIO</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+    </div>
+  </div>
 </div>
-</body>
-</html>
+
+<div class="footer">
+  <h2>Footer</h2>
+</div>
+
+</body></html>
