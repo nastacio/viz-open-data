@@ -17,8 +17,6 @@ This is what you will be building:
 
 Cognos Dashboard Embedded is exclusive to the IBM Cloud, so you need to [create an IBM Cloud account](https://cloud.ibm.com/registration).
 
-In order to simplify these instructoon 
-
 - [Install the IBM Cloud CLI](https://cloud.ibm.com/docs/cli)
 
 - [Create an IBM Cloud API Key](https://cloud.ibm.com/iam/apikeys). Copy the "API key" value and paste it somewhere safe. It will be used later to login via command-line interface and referenced as `${IBMCLOUD_API_KEY}` in the instructions. 
