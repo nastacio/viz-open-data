@@ -6,45 +6,64 @@ body {
   background: #f4f4f4;
   color: #161616;
   font-family: 'IBM Plex Light', 'Helvetica Neue', Arial, sans-serif;
-  font-weight: semi-bold;
+  font-weight: normal;
   font-size: 1 rem; 
   padding: 10px;
 }
 
 /* Header/Blog Title */
 .header {
-  padding: 30px;
+  padding: 6px;
   text-align: center;
+  font-weight: semi-bold;
   background: white;
 }
 
 .header h1 {
-  font-size: 50px;
+  font-size: 2.5 srem;
 }
 
 /* Style the top navigation bar */
 .topnav {
   overflow: hidden;
-  background-color: #333;
+  background-color: #393939;
 }
 
-/* Style the topnav links */
+.topnav .selected {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 12px 24px;
+  text-decoration: none;
+  background-color: #525252;
+  border-top-color: #0353e9;
+  border-top-width: thick;
+  border-top-style: solid;
+}	
+
+.topnav .unselected {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  border-top-color: #393939;
+  border-top-width: thick;
+  border-top-style: solid;
+}
+
 .topnav a {
   float: left;
   display: block;
-  color: #f2f2f2;
+  color: #f4f4f4;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-}
-
-.topnav span {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
+  border-top-color: #393939;
+  border-top-width: thick;
+  border-top-style: solid;
 }
 
 /* Change color on hover */
@@ -93,8 +112,9 @@ body {
 .footer {
   padding: 20px;
   text-align: center;
-  background: #ddd;
+  background: #f1f1f1;
   margin-top: 20px;
+  margin-bottom: 12px;
 }
 
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */

@@ -86,7 +86,7 @@ For applications using multiple bindings and in situations where the key name in
 
 ```
   env:
-    - name: cognos-binding
+    - name: cognos_binding
       valueFrom:
         secretKeyRef:
           name: binding-open-data-cognos-de

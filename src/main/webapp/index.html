@@ -6,46 +6,111 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
+
 <body>
 
-<div class="header">
-  <h1>Open Data Visualization</h1>
-  <p>From concept to deployment, with Kabanero</p>
-</div>
+	<div class="header">
+		<h1>Using Open Data Sets with Kabanero</h1>
+		<h2>Service Integration Demo</h2>
+	</div>
 
-<div class="topnav">
-  <span class="a" onclick='document.getElementById("concepts").style.display = "block";document.getElementById("appdemo").style.display = "none"'>Concept</span>
-  <span class="a" onclick='document.getElementById("concepts").style.display = "none";document.getElementById("appdemo").style.display = "block"'>Demo</span>
-</div>
+	<div class="topnav">
+		<div class="selected" id="concepts-menu"
+			onclick='document.getElementById("concepts").style.display = "block";document.getElementById("appdemo").style.display = "none";document.getElementById("concepts-menu").className = "selected";document.getElementById("appdemo-menu").className = "unselected";'>Videos</div>
+		<div class="unselected" id="appdemo-menu"
+			onclick='document.getElementById("concepts").style.display = "none";document.getElementById("appdemo").style.display = "block";document.getElementById("concepts-menu").className = "unselected";document.getElementById("appdemo-menu").className = "selected";'>Demo</div>
+        <a style="float:right;" href="http://data.un.org/" target="_blank">U.N. Data</a>
+	</div>
 
-<div class="row">
-  <div class="leftcolumn">
-    <div id="concepts" class="card">
-      <h2 >How it works</h2>
-      <div><iframe height="600px;" style="width:100%;" src="https://www.youtube.com/embed/U5WPuenw3WE?autoplay=1&loop=1" frameborder="0" allow="accelerometer; modestbranding; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-      
-    </div>
-    <div id="appdemo" class="card" style="display: none;">
-      <h2 >In action</h2>
-      <div><iframe height="1024px;" style="width:100%;" src="index.jsp"></iframe></div>
-      
-    </div>
-  </div>
-  <div class="rightcolumn">
-    <div class="card">
-      <h3>Follow Kabanero</h3>
-      <p><a href="https://twitter.com/KabaneroIO">On Twitter</a></p>
-      <p><a href="https://github.com/kabanero-io">On GitHub</a></p>
-    </div>
-    <div class="card">
-      <h3>Twitter Feed</h3>
-      <a class="twitter-timeline" href="https://twitter.com/KabaneroIO?ref_src=twsrc%5Etfw">Tweets by KabaneroIO</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-    </div>
-  </div>
-</div>
+	<div class="row">
+		<div class="leftcolumn">
+			<div id="appdemo" class="card" style="display: none;">
+				<div>
+				    <a href="index.jsp" target="_blank"><img title="Demo in Full Screen"
+					height="16px" src="icons/launch.svg"/></a>
+					<iframe style="width: 100%; height: 800px;"
+						src="index.jsp"></iframe>
+				</div>
+			</div>
+			<div id="concepts" class="card">
 
-<div class="footer">
-  <h2>Footer</h2>
-</div>
+				<div>
+					<iframe height="600px;" style="width: 100%;"
+						src="https://www.youtube.com/embed/videoseries?list=PLBEPRK0BLyO1cyhxI4ooZOgVTtjzy5kBJ"
+						frameborder="0"
+						allow="accelerometer; modestbranding; encrypted-media; gyroscope; picture-in-picture"
+						allowfullscreen></iframe>
+				</div>
 
-</body></html>
+			</div>
+		</div>
+		<div class="rightcolumn">
+			<div class="card">
+				<h3>Building Blocks</h3>
+				<a href="https://kabanero.io" target="_blank"><img
+					title="Kabanero Website" height="32px" src="icons/kabanero.ico" /></a>
+				<a href="https://appsody.dev" target="_blank"><img
+					title="Appsody Website" height="32px" src="icons/logo--appsody.svg" /></a>
+				<a href="https://www.eclipse.org/codewind/" target="_blank"><img
+					title="Codewind Website" height="32px"
+					src="icons/logo--codewind.png" /></a> <a href="https://tekton.dev/"
+					target="_blank"><img title="Tekton Pipelines" height="32px"
+					src="icons/logo--tekton.png" /></a> <a href="https://razee.io/"
+					target="_blank"><img title="Razee multi-cluster CD"
+					height="32px" src="icons/logo--razee.png" /></a>
+			</div>
+			<div class="card">
+				<h3>On the Web</h3>
+				<a href="https://twitter.com/KabaneroIO" target="_blank"><img
+					title="Kabanero on Twitter" height="32px"
+					src="icons/logo--twitter.svg" /></a> <a
+					href="https://github.com/kabanero-io" target="_blank"><img
+					title="Kabanero on Github" height="32px"
+					src="icons/logo--github.svg" /></a>
+			</div>
+			<div class="card">
+				<h3>Additional Content</h3>
+				<table>
+					<ul>
+						<li><a
+							href="https://kabanero.io/blog/2019/08/30/Kabanero-World-Tour-Begins.html">Kabanero World Tour</a></li>
+					</tr>
+					<li><a
+						href="https://developer.ibm.com/blogs/introduction-to-appsody/">Introduction
+							to Appsody</a></li>
+					</tr>
+					<li><a
+						href="https://developer.ibm.com/articles/customizing-appsody/"
+						target="_blank">Customizing Appsody Stacks</a></li>
+					</tr>
+					<li><a
+						href="https://developer.ibm.com/tutorials/develop-a-cloud-native-java-application-using-codewind/"
+						target="_blank">Use Codewind with Eclipse and VS Code</a></li>
+					</tr>
+					<li><a
+						href="https://developer.ibm.com/tutorials/make-continuous-delivery-easier-with-tekton-dashboards/">Continuous
+							delivery with Tekton Dashboards</a></li>
+					</ul>
+				</table>
+			</div>
+			<!-- x
+			<div class="card">
+				<h3>Twitter Feed</h3>
+				<a class="twitter-timeline"
+					href="https://twitter.com/KabaneroIO?ref_src=twsrc%5Etfw">Tweets
+					by KabaneroIO</a>
+				<script async src="https://platform.twitter.com/widgets.js"
+					charset="utf-8"></script>
+			</div>
+			-->
+		</div>
+	</div>
+
+	<div class="footer">
+		<div style="vertical-align: middle; float: right;">
+			<img style="height: 24px;" src="img/Kabanero_Logo_Hero.png"></img>
+		</div>
+	</div>
+
+</body>
+</html>
