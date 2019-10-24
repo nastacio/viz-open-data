@@ -1,17 +1,27 @@
 # Open Data Sets with Kabanero
 
-This project is an example of a [Kabanero](https://kabanero.io) application that can connect to an instance of a remote service.
+This project is an example of a [Kabanero](https://kabanero.io) application connecting  to a remote service, showing how the credentials for that service can be obtained and made available to the application during coding sessions.
 
 The application was developed using the java-microprofile collection and the service instance is a [Cognos Dashboard Embedded](https://www.ibm.com/us-en/marketplace/cognos-dashboard-embedded) instance, paired with a few open data sets from the [U.N. Data](http://data.un.org/) program.   
 
 This purpose of this example is to show how an external service reference can be integrated into the Kabanero development flow, so that the application code can access the service references whether the application is running in a developer's laptop with `appsody run` or running in a remote cluster.
 
+## Prerequisites
+
+- Go through the [Appsody Quick Start](https://appsody.dev/docs/getting-started/quick-start). That will ensure you have prerequisites installed and working before proceeding, as well as some basic notion of how Appsody can help you create and develop applications.
+
+
 ## Overview
 
-In a running state, we want a simple arrangement, where the application is interfacing with the service instance using the service credentials. For simplicity, the service instance is configured with pointers to static CSV files instead of using a database connection.
+In a running state, we want a simple arrangement, where the application is interfacing with the service instance using the service credentials. For simplicity, the service instance is configured with pointers to static CSV files instead of using a database connection. The added complexity of configuring the service to use a database connection would not add to the purpose of this sample.
 
 
 ![Components](src/main/webapp/img/component-diagram.png "Component Diagram for the sample") 
+
+The CSV files are obtained directly from [http://data.un.org](http://data.un.org), but that website does not allow automated retrieval of the data by a remote service, so we uploaded without modifications to GitHub, which allows directly downloads from a remote service.
+
+The CSV files are placed in the `/src/main/webapp/csv` directory and are accessed by the service instance using the dashboard specification listed in `/src/main/resources/dashboard-tabbed-spec.json`, where you can see data URLs like `https://raw.githubusercontent.com/nastacio/viz-open-data/master/src/main/webapp/csv/OpenData-UN-RandD.csv`.
+
  
 
 ## Setup the service instance
@@ -22,7 +32,9 @@ Cognos Dashboard Embedded is exclusive to the IBM Cloud, so you need to [create 
 
 - [Create an IBM Cloud API Key](https://cloud.ibm.com/iam/apikeys). Copy the "API key" value and paste it somewhere safe. It will be used later to login via command-line interface and referenced as `${IBMCLOUD_API_KEY}` in the instructions. 
 
-- Create a "Lite" plan instance of Cognos Dashboard Embedded. That is a free service that gets deleted after 30 days of inactivity.
+With the IBM Cloud CLI and the API Key setup, it is time to create a "Lite" plan instance of Cognos Dashboard Embedded (that is a free service that gets deleted after 30 days of inactivity) .
+
+Type the following commands in a terminal:
 
 
 ```
@@ -33,7 +45,9 @@ ibmcloud resource service-instance-create open-data-cognos-de dynamic-dashboard-
 
 ### Create a service key
 
-Create the credentials and store them in a properties file that can be referenced later when running the application locally:
+The service instance can have multiple credentials with different roles. For this sample, we want a key with the "Reader" role.
+
+Once again, from a terminal, create the credentials and store them in a properties file that can be referenced later when running the application locally:
 
 ```
 ibmcloud resource service-key-create cognos-dashboard-key Reader --instance-name open-data-cognos-de 
@@ -46,8 +60,9 @@ ${cognos_credentials}
 EOF
 ```
 
-The structure of a service credential is specific to the service and therefore needs specific code
-inside the application code to be parsed. For this particular service, the structure looks like this:
+Note that the credentials were written in the form of a `key=value`, which will later be passed to the Appsody CLI.
+
+The structure of a service credential is specific to the service and therefore needs specific code inside the application code to be parsed. For this particular service, the structure looks like this:
 
 ```
 {
@@ -64,13 +79,24 @@ inside the application code to be parsed. For this particular service, the struc
 
 ### Bind the service to the cluster
 
-This step makes the service credentials available in the cluster:
+This step makes the service credentials available to the cluster:
 
 ```
 ibmcloud ks cluster service bind --cluster kab --service open-data-cognos-de -n default
 ```
 
-Internally, this command simply creates a Kubernetes `Secret` object, prepending the word "binding-" to the service instance name to generate the secret name:
+Internally, this command simply creates a Kubernetes `Secret` object, prepending the word "binding-" to the service instance name to generate the secret name.
+
+We can inspect the contents of the Secret, first changing the configuration context of the `kubectl` CLI using the following command: 
+
+```
+cluster_name=<put your cluster name here>
+eval $(ibmcloud ks cluster config --cluster ${cluster_name} -s)
+```
+
+Note that users of Docker Desktop can change the configuration context of `kubectl` by simply right-clicking the Docker icon and choosing "Kubernetes", then "_<clustername>_".
+
+With `kubectl` pointing to the remote cluster, use the secret  name to inspect its contents:
 
 ```
 kubectl get secret binding-open-data-cognos-de -o json
@@ -91,6 +117,9 @@ kubectl get secret binding-open-data-cognos-de -o json
 ```
   
 
+## Setup the application
+
+The application in this repo has already gone through those steps, but for reference, it was created with canonical development sequence for an Appsody application, as described in this [guide](https://kabanero.io/guides/collection-microprofile).
 
 
 ## Referencing service credentials in an Appsody application
@@ -150,8 +179,6 @@ eval $(ibmcloud ks cluster config --cluster ${cluster_name} -s)
  
 Since the cluster is remote to your local docker daemon, the `deploy` command must also specify the `--push` parameter, so that the image is pushed to a remote repository accessible by the cluster.
 
-Note that the image 
-
 ```
 appsody deploy --push --tag your_docker_repo/viz-open-data:0.0.1
 ```
@@ -183,9 +210,9 @@ Some application frameworks have settings to automatically use pre-built CA cert
 
 ### Using the OpenJDK CA database
 
-A well-written application should not automatically accept untrusted certificates, so we need to instruct the Java application to use either an already existing CA database or create a new one. We can start with the first option, using the CA shipped with Open JDK. 
+A well-written application should not automatically accept untrusted certificates, so we need to instruct the Java application to use either an already existing CA database or create a new one. The default template for the java-microprofile stack currently does not set a default trust store for outbound communications (this should change soon, when Open Liberty delivers [this feature](https://github.com/OpenLiberty/open-liberty/issues/9016)) .
 
-In order to reference that CA database, we first need to have access to one. Upon inspection of the docker image used by the java-microprofile stack, we can see one located under `/opt/java/openjdk/jre/lib/security/cacerts`, so we need to make the corresponding modifications to the server.xml file bundled with the application under `src/main/liberty/config`:
+We can start with the first option, using the CA database shipped with Open JDK as the trust store for outbound communications. Upon inspection of the docker image used by the java-microprofile stack, we can find that database located at `/opt/java/openjdk/jre/lib/security/cacerts`, so we need to make the corresponding modifications to the server.xml file bundled with the application under `src/main/liberty/config`:
 
 
 ```
