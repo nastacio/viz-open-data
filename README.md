@@ -1,29 +1,176 @@
+- [Open Data Sets with Kabanero](#open-data-sets-with-kabanero)
+  * [Prerequisites](#prerequisites)
+  * [The Application](#the-application)
+    + [About the data](#about-the-data)
+    + [Application structure](#application-structure)
+    + [Trusting a remote certificate](#trusting-a-remote-certificate)
+    + [Referencing an existing CA database](#referencing-an-existing-ca-database)
+    + [Creating a new CA database](#creating-a-new-ca-database)
+  * [Setup the service instance](#setup-the-service-instance)
+    + [Create a service key](#create-a-service-key)
+    + [Bind the service to the cluster](#bind-the-service-to-the-cluster)
+  * [Referencing service credentials in an Appsody application](#referencing-service-credentials-in-an-appsody-application)
+    + [Mapping a service credential as an environment variable](#mapping-a-service-credential-as-an-environment-variable)
+    + [Running the application](#running-the-application)
+  * [Remote Deployment](#remote-deployment)
+  * [Credits](#credits)
+
+
 # Open Data Sets with Kabanero
 
-This project is an example of a [Kabanero](https://kabanero.io) application connecting  to a remote service, showing how the credentials for that service can be obtained and made available to the application during coding sessions.
+This project is an example of an [Appsody](https://appsody.dev) application connecting to a remote service, showing how the credentials for that service can be used whether the application is running in a coding session with `appsody run` or running in a remote cluster after `appsody deploy`.
 
-The application was developed using the java-microprofile collection and the service instance is a [Cognos Dashboard Embedded](https://www.ibm.com/us-en/marketplace/cognos-dashboard-embedded) instance, paired with a few open data sets from the [U.N. Data](http://data.un.org/) program.   
-
-This purpose of this example is to show how an external service reference can be integrated into the Kabanero development flow, so that the application code can access the service references whether the application is running in a developer's laptop with `appsody run` or running in a remote cluster.
+The application was developed using the [Kabanero](https://kabanero.io) java-microprofile [collection](https://kabanero.io/docs/ref/general/collection-management.html) and the service is a [Cognos Dashboard Embedded](https://www.ibm.com/us-en/marketplace/cognos-dashboard-embedded) instance, paired with open data sets from the [UNdata](http://data.un.org/) program.   
 
 ## Prerequisites
 
-- Go through the [Appsody Quick Start](https://appsody.dev/docs/getting-started/quick-start). That will ensure you have prerequisites installed and working before proceeding, as well as some basic notion of how Appsody can help you create and develop applications.
+The rest of this tutorial assumes you have gone through the ["Developing cloud native microservices with the Eclipse MicroProfile Collection and Appsody CLI"](https://kabanero.io/guides/collection-microprofile) guide.
+
+Those instructions provide the basic notions of how Appsody can help you create and develop applications. They also ensure you have other software prerequisites installed and working before proceeding. 
 
 
-## Overview
+## The Application
 
-In a running state, we want a simple arrangement, where the application is interfacing with the service instance using the service credentials. For simplicity, the service instance is configured with pointers to static CSV files instead of using a database connection. The added complexity of configuring the service to use a database connection would not add to the purpose of this sample.
+In a running state, we want a simple arrangement, where the application is interfacing with the service instance using the service credentials. For simplicity, the service instance is configured with pointers to static CSV files. It would have been possible to instruct the service to consume the data from a remote database, but the added complexity was not relevant to the purpose of this example.
 
 
 ![Components](src/main/webapp/img/component-diagram.png "Component Diagram for the sample") 
 
-The CSV files are obtained directly from [http://data.un.org](http://data.un.org), but that website does not allow automated retrieval of the data by a remote service, so we uploaded without modifications to GitHub, which allows directly downloads from a remote service.
+### About the data
 
-The CSV files are placed in the `/src/main/webapp/csv` directory and are accessed by the service instance using the dashboard specification listed in `/src/main/resources/dashboard-tabbed-spec.json`, where you can see data URLs like `https://raw.githubusercontent.com/nastacio/viz-open-data/master/src/main/webapp/csv/OpenData-UN-RandD.csv`.
+UNdata is a repository of open data sets, which are available to the global user community through various downloadable formats and APIs. For this example, the data sets were obtained in CSV format and uploaded to GitHub, since UNdata does not allow downloads from a remote service.
+
+The CSV files were placed in the `/src/main/webapp/csv` directory and are accessed by the service instance using the dashboard specification listed in `/src/main/resources/dashboard-tabbed-spec.json`. Upon inspection of that dashboard specificaton, it is possible to see references to the data URLs, such as `https://raw.githubusercontent.com/nastacio/viz-open-data/master/src/main/webapp/csv/OpenData-UN-RandD.csv`.
+
+The complete documentation for the dashboard service, from authoring a dashboard layout to referencing remote data sources is available [here](https://cloud.ibm.com/docs/services/cognos-dashboard-embedded). 
+
+### Application structure
+
+The application was created using the same steps described in the guide mentioned in the "Prerequisites" section, then augmented with the source required to interface with the service.
+
+### Trusting a remote certificate
+
+The standard java-microprofile collection in Kabanero does not trust any remote certificate. This will change soon, when the underlying Open Liberty runtime adds [this feature](https://github.com/OpenLiberty/open-liberty/issues/9016)). 
+
+In the meantime, Open Liberty needs to be instructed to use a trust store for outbound connections. That trust store must contain either the certificate for the signing authority for the service certificate or the service certificate itself, and then referenced in the Open Liberty [SSL Repertoire](https://openliberty.io/docs/ref/config/ssl.html) for outbound connections.
+
+### Referencing an existing CA database
+
+This particular service reference is signed by a well-known signing authority, which is contained the CA database shipped with the Java runtime for Open Liberty.
+
+Upon inspection of the docker image used by the java-microprofile stack, one can find that database located at `/opt/java/openjdk/jre/lib/security/cacerts`. The Open Liberty configuration [docs](https://openliberty.io/docs/ref/config/#sslDefault.html) explains in detail how to associate that CA database as the truststore for outbound secure communications, resulting in the following modifications to the server.xml file bundled with the application (located under `src/main/liberty/config`):
+
+
+```
+<server description="Liberty server">
+    ...
+
+	<keyStore id="defaultTrustStore" 
+	    password="changeit"
+		readOnly="false" 
+		type="JKS" 
+		location="/opt/java/openjdk/jre/lib/security/cacerts">
+	</keyStore>
+
+	<ssl id="defaultSSLSettings" 
+	     keyStoreRef="defaultKeyStore"
+		 trustStoreRef="defaultTrustStore"></ssl>
+
+	<sslDefault 
+	    sslRef="defaultSSLSettings" 
+	    outboundSSLRef="defaultSSLSettings"></sslDefault>
+
+    ...
+    
+</server>
+```
+
+As an exercise to the reader, check the "Hostname verification on SSL configuration" section of this [blog entry](https://openliberty.io/blog/2019/06/21/microprofile-rest-client-19006.html) and make that modification to the `sslDefault` element in the above example.
+
+### Creating a new CA database
+
+The solution in the above section is adopter in this example for the sake of simplicity. In order to achieve stronger trust in outbound communications, a better approach is to create a new keystore containing _solely_ the certificates of all services to be contacted by the application.
+
+This [Stackoverflow thread](https://stackoverflow.com/questions/7885785/using-openssl-to-get-the-certificate-from-a-server) covers a number of techniques for obtaining a copy of the certificate used to secure traffic to a remote server. For the purposes of this section, the service certificate is already downloaded and available at `/src/main/resources/us-southdynamic-dashboard-embeddedcloudibmcom.crt`.
+
+The next sections require the `keytool` utility for managing key stores. You could install Open JDK 9 in order to have the utility in your local computer, but a more convenient mechanism is to simply launch the application with `appsody run`, then use `docker exec...` to have access to the JDK already bundled with the container running the application.
+
+Launch the application with `appsody run` and open a shell into it using a new terminal session:
+
+```
+docker exec -it viz-open-data-dev /bin/sh
+
+keytool -importkeystore -srckeystore /opt/java/openjdk/jre/lib/security/cacerts -srcstorepass changeit -keystore /project/user-app/src/main/liberty/config/resources/security/truststore.p12 -storetype PKCS12 -deststorepass mpKeystore 
+```
+
+Still in the shell inside the container, add the new key to the new trust store. Note that the key location may be different in your system, so the path in the instruction below may need to be adjusted to match the location of other service certificates in the future:
+
+```
+keytool -importcert -file /project/user-app/src/main/resources/us-southdynamic-dashboard-embeddedcloudibmcom.crt -alias ussouthcde -keystore  /project/user-app/src/main/liberty/config/resources/security/truststore.p12 -noprompt -storetype PKCS12 -storepass mpKeystore
+```
+
+Now we replace the path of the `/opt/java/openjdk/jre/lib/security/cacerts` in server.xml with `truststore.p12`, as follows:
+
+```
+<server description="Liberty server">
+    ...
+
+	<keyStore id="defaultTrustStore" 
+	    password="changeit"
+		readOnly="false" 
+		type="JKS" 
+		location="truststore.p12">
+	</keyStore>
+
+	<ssl id="defaultSSLSettings" 
+	     keyStoreRef="defaultKeyStore"
+		 trustStoreRef="defaultTrustStore"></ssl>
+
+	<sslDefault 
+	    sslRef="defaultSSLSettings" 
+	    outboundSSLRef="defaultSSLSettings"></sslDefault>
+
+    ...
+    
+</server>
+```
+
+Note that this new location is not an absolute path anymore, since it does not reside in the container image running the application. The lack of an absolute path means Open Liberty will look for it in the default runtime location (`/project/target/liberty/wlp/usr/servers/defaultServer/resources/security`) , so we need to tell Appsody to place the new trust store in that location, by making a modification to the `pom.xml` file at the root directory of the application.
+
+The modification is based on the usage of the [Maven Resources Plugin](https://maven.apache.org/plugins/maven-resources-plugin/) to copy the new trust store from its location in the code repository to the location expected by Open Liberty. In short, we need to add a new  `plugin` reference under the `build/plugins` element of the `pom.xml` file:
+
+```
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/liberty/wlp/usr/servers/defaultServer/resources/security</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/src/main/liberty/config/resources/security</directory>
+									<filtering>false</filtering>
+									<includes>
+										<include>truststore.p12</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+```
+
+With these changes in place, the new `truststore.p12` file will be placed in the running container and referenced from the Open Liberty server configuration, allowing the application to connect to the remote service. 
+
 
  
-
 ## Setup the service instance
 
 Cognos Dashboard Embedded is exclusive to the IBM Cloud, so you need to [create an IBM Cloud account](https://cloud.ibm.com/registration).
@@ -45,22 +192,13 @@ ibmcloud resource service-instance-create open-data-cognos-de dynamic-dashboard-
 
 ### Create a service key
 
-The service instance can have multiple credentials with different roles. For this sample, we want a key with the "Reader" role.
-
-Once again, from a terminal, create the credentials and store them in a properties file that can be referenced later when running the application locally:
+The service instance can have multiple credentials with different roles. For this sample, we want a key with the "Reader" role:
 
 ```
 ibmcloud resource service-key-create cognos-dashboard-key Reader --instance-name open-data-cognos-de 
 
 ibmcloud resource service-key cognos-dashboard-key -g default --output json
-
-cognos_credentials="$(echo $(ibmcloud resource service-key cognos-dashboard-key -g default --output json | grep credentials -A 20) | sed "s|.*\({.*}\).*|cognos_binding=\1|")"
-cat > ~/tmp/sample_cognos_binding.txt << EOF
-${cognos_credentials}
-EOF
 ```
-
-Note that the credentials were written in the form of a `key=value`, which will later be passed to the Appsody CLI.
 
 The structure of a service credential is specific to the service and therefore needs specific code inside the application code to be parsed. For this particular service, the structure looks like this:
 
@@ -85,7 +223,7 @@ This step makes the service credentials available to the cluster:
 ibmcloud ks cluster service bind --cluster kab --service open-data-cognos-de -n default
 ```
 
-Internally, this command simply creates a Kubernetes `Secret` object, prepending the word "binding-" to the service instance name to generate the secret name.
+Internally, this command simply creates a Kubernetes `Secret` object, prepending the word "binding-" to the service instance name in order to generate the secret name.
 
 We can inspect the contents of the Secret, first changing the configuration context of the `kubectl` CLI using the following command: 
 
@@ -94,9 +232,9 @@ cluster_name=<put your cluster name here>
 eval $(ibmcloud ks cluster config --cluster ${cluster_name} -s)
 ```
 
-Note that users of Docker Desktop can change the configuration context of `kubectl` by simply right-clicking the Docker icon and choosing "Kubernetes", then "_<clustername>_".
+Note that users of Docker Desktop can change the configuration context of `kubectl` by  right-clicking the Docker icon and choosing "Kubernetes", then "_<clustername>_".
 
-With `kubectl` pointing to the remote cluster, use the secret  name to inspect its contents:
+With `kubectl` pointing to the remote cluster, use the secret name to inspect its contents:
 
 ```
 kubectl get secret binding-open-data-cognos-de -o json
@@ -116,12 +254,6 @@ kubectl get secret binding-open-data-cognos-de -o json
 }
 ```
   
-
-## Setup the application
-
-The application in this repo has already gone through those steps, but for reference, it was created with canonical development sequence for an Appsody application, as described in this [guide](https://kabanero.io/guides/collection-microprofile).
-
-
 ## Referencing service credentials in an Appsody application
 
 We want the local development environment to mimic the environment when the application is running inside a Kubernetes cluster, so that the application developer does not have to write different code for the different environments.
@@ -154,18 +286,55 @@ Refer to the [Appsody Application Operator User Guide](https://github.com/appsod
 
 
 ### Running the application
-			
+
+The application will need an environment variable containing the service credentials available in the cluster under the `binding-open-data-cognos-de` secret, so the first step is to create a properties file containing those credentials.
+
+Once again, from a terminal, create the credentials and store them in a properties file that can be referenced later when running the application locally:
+
+Note that MacOS has a slightly backward version of the `base64` utility, so the parameter for is `-D` instead of `-d`:
+
+MacOS:
+
+```
+cognos_credentials="$(kubectl get secret binding-open-data-cognos-de -o jsonpath='{.data.binding}' | base64 -D)"
+```
+
+Linux:
+
+```
+cognos_credentials="$(kubectl get secret binding-open-data-cognos-de -o jsonpath='{.data.binding}' | base64 -d)"
+```
+
+Then finally:
+
+```
+cat > ~/tmp/sample_cognos_binding.txt << EOF
+cognos_binding=${cognos_credentials}
+EOF
+
+```
+
+Once could also use the `ibmcloud resource` CLI to get the credentials, though that would also require the presence of the [jq](https://stedolan.github.io/jq/) utility in the local development environment:
+
+```
+cognos_credentials="$(echo $(ibmcloud resource service-key cognos-dashboard-key -g default --output json | jq .[].credentials))"
+
+cat > ~/tmp/sample_cognos_binding.txt << EOF
+cognos_binding=${cognos_credentials}
+EOF
+```
+
 With the environment variable in a file, we can instruct `appsody run` to pass that file to container running the application, as follows:
 
 ```
-appsody run --docker-options="--env-file=$(echo ~)/tmp/bindings.txt"
+appsody run --docker-options="--env-file=$(echo ~)/tmp/sample_cognos_binding.txt"
 ```
 
-The `--env-file` option instructs docker to export each `env_var_name=value` entry in the file as an environment variable, so you can have multiple secrets in the same file.
+The `--env-file` option instructs docker to export each `env_var_name=value` entry in the file as an environment variable, which makes it possible to include multiple secrets using that same file.
 
 
 
-## Remote Deployment - IBM cloud
+## Remote Deployment
 
 
 With the application configured to connect to the remote service, it is possible to use `appsody deploy` to deploy the application to a cluster.
@@ -204,100 +373,8 @@ echo "http://${public_ip}:${public_port}"
 
 ```
 
-## Special notes on making a Java application trust a remote certificate
-
-Some application frameworks have settings to automatically use pre-built CA certificates, but that is not the case for the java-microprofile collection in Liberty  The purpose of this example is to show how Appsody applications can reference external services, so that beyond the credentials and address for the service, the application will have to trust the service certificate.
-
-### Using the OpenJDK CA database
-
-A well-written application should not automatically accept untrusted certificates, so we need to instruct the Java application to use either an already existing CA database or create a new one. The default template for the java-microprofile stack currently does not set a default trust store for outbound communications (this should change soon, when Open Liberty delivers [this feature](https://github.com/OpenLiberty/open-liberty/issues/9016)) .
-
-We can start with the first option, using the CA database shipped with Open JDK as the trust store for outbound communications. Upon inspection of the docker image used by the java-microprofile stack, we can find that database located at `/opt/java/openjdk/jre/lib/security/cacerts`, so we need to make the corresponding modifications to the server.xml file bundled with the application under `src/main/liberty/config`:
-
-
-```
-<server description="Liberty server">
-    ...
-
-	<keyStore id="defaultTrustStore" 
-	    password="changeit"
-		readOnly="false" 
-		type="JKS" 
-		location="/opt/java/openjdk/jre/lib/security/cacerts">
-	</keyStore>
-
-	<ssl id="defaultSSLSettings" 
-	     keyStoreRef="defaultKeyStore"
-		 trustStoreRef="defaultTrustStore"></ssl>
-
-	<sslDefault 
-	    sslRef="defaultSSLSettings" 
-	    outboundSSLRef="defaultSSLSettings"></sslDefault>
-
-    ...
-    
-</server>
-```
-
-### Using a new CA database
-
-If we wanted to reference a service that is not present in a CA database for some reason, then a new trust store has to created with the OpenJDK `keytool` utility.
-
-The new key needs to be added to the new trust store, referenced in the server.xml file, and included in the running server directory. 
-
-Since "/project/user-app" is a mounted folder inside the container after `appsody run`, it may be more convenient to create the new repository from inside such container.
-
-Launch the application with `appsody run` and ssh into it:
-
-```
-docker exec -it viz-open-data-dev /bin/sh
-
-keytool -importkeystore -srckeystore /opt/java/openjdk/jre/lib/security/cacerts -srcstorepass changeit -keystore /project/user-app/src/main/liberty/config/resources/security/truststore.p12 -storetype PKCS12 -deststorepass mpKeystore 
-```
-
-Still in the shell inside the container, add the new key to the new trust store. Note that the key location may defer in your system, but adjust it to match the location of the service certificate. This [Stackoverflow thread](https://stackoverflow.com/questions/7885785/using-openssl-to-get-the-certificate-from-a-server) covers a number of techniques for obtaining a copy of the certificate used to secure traffic to a remote server.
-
-This is just an example for illustration purposes, since this particular key is already signed by a trusted CA and therefore already implicitly trusted by the client application:
-
-```
-keytool -importcert -file /project/user-app/src/main/resources/us-southdynamic-dashboard-embeddedcloudibmcom.crt -alias ussouthcde -keystore  /project/user-app/src/main/liberty/config/resources/security/truststore.p12 -noprompt -storetype PKCS12 -storepass mpKeystore
-```
-
-Now replace `/opt/java/openjdk/jre/lib/security/cacerts` in server.xml with `truststore.p12`. Note that this is not an absolute path anymore, which means Open Liberty will look for it in the default runtime location (`/project/target/liberty/wlp/usr/servers/defaultServer/resources/security`) . Therefore, we need to tell the `appsody build` process to place the new trust store in that location, by making a modification to pom.xml.
-
-Add a plugin execution for the `maven-resources-plugin`, under the `build/plugins` element:
-
-```
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.6</version>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<phase>install</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/target/liberty/wlp/usr/servers/defaultServer/resources/security</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}/src/main/liberty/config/resources/security</directory>
-									<filtering>false</filtering>
-									<includes>
-										<include>truststore.p12</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-```
-
-With these changes in place, the new `truststore.p12` file will be placed in the running container and referenced from the Open Liberty server configuration, allowing the application to connect to the remote service. 
-
 
 ## Credits
 
-The project was inspired by the session ["Open Data: The New Oil Fueling Civic Tech"](https://allthingsopen.org/talk/open-data-the-new-oil-fueling-civic-tech/), presented by [Jason Hibbets](https://twitter.com/jhibbets) at the ATO2019 conference.
+- The project was inspired by the session ["Open Data: The New Oil Fueling Civic Tech"](https://allthingsopen.org/talk/open-data-the-new-oil-fueling-civic-tech/), presented by [Jason Hibbets](https://twitter.com/jhibbets) at the [ATO2019 conference](https://allthingsopen.org).
+- Table of contents generated with [markdown-toc](http://ecotrust-canada.github.io/markdown-toc/)
