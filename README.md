@@ -34,7 +34,14 @@ Those instructions provide the basic notions of how Appsody can help you create 
 In a running state, we want a simple arrangement, where the application is interfacing with the service instance using the service credentials. For simplicity, the service instance is configured with pointers to static CSV files. It would have been possible to instruct the service to consume the data from a remote database, but the added complexity was not relevant to the purpose of this example.
 
 
-![Components](src/main/webapp/img/component-diagram.png "Component Diagram for the sample") 
+| ![Components](src/main/webapp/img/component-diagram.png "Component Diagram for the sample") |
+|:--:|
+| *Application Components* |
+
+
+| ![Screenshot](src/main/webapp/img/application-screenshot.png "Screenshot for the application") |
+|:--:|
+| *Application layout* |  
 
 ### About the data
 
