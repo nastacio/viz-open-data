@@ -41,7 +41,7 @@ In a running state, we want a simple arrangement, where the application is inter
 
 | ![Screenshot](src/main/webapp/img/application-screenshot.png "Screenshot for the application") |
 |:--:|
-| *Application layout* |  
+| *Application Layout* |  
 
 ### About the data
 
