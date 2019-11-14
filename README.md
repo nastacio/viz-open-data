@@ -227,7 +227,8 @@ The structure of a service credential is specific to the service and therefore n
 This step makes the service credentials available to the cluster:
 
 ```
-ibmcloud ks cluster service bind --cluster kab --service open-data-cognos-de -n default
+cluster_name=<put your cluster name here>
+ibmcloud ks cluster service bind --cluster ${cluster_name} --service open-data-cognos-de -n default
 ```
 
 Internally, this command simply creates a Kubernetes `Secret` object, prepending the word "binding-" to the service instance name in order to generate the secret name.
@@ -298,7 +299,7 @@ The application will need an environment variable containing the service credent
 
 Once again, from a terminal, create the credentials and store them in a properties file that can be referenced later when running the application locally:
 
-Note that MacOS has a slightly backward version of the `base64` utility, so the parameter for is `-D` instead of `-d`:
+Note that MacOS has a slightly backward version of the `base64` utility, so the parameter for `base64` is `-D` instead of `-d`:
 
 MacOS:
 
