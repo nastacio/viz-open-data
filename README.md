@@ -96,7 +96,7 @@ As an exercise to the reader, check the "Hostname verification on SSL configurat
 
 ### Creating a new CA database
 
-The solution in the above section is adopter in this example for the sake of simplicity. In order to achieve stronger trust in outbound communications, a better approach is to create a new keystore containing _solely_ the certificates of all services to be contacted by the application.
+The solution in the above section is adopted in this example for the sake of simplicity. In order to achieve stronger trust in outbound communications, a better approach is to create a new keystore containing _solely_ the certificates of the services to be contacted by the application.
 
 This [Stackoverflow thread](https://stackoverflow.com/questions/7885785/using-openssl-to-get-the-certificate-from-a-server) covers a number of techniques for obtaining a copy of the certificate used to secure traffic to a remote server. For the purposes of this section, the service certificate is already downloaded and available at `/src/main/resources/us-southdynamic-dashboard-embeddedcloudibmcom.crt`.
 
