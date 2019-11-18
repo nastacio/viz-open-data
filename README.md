@@ -57,7 +57,7 @@ The application was created using the same steps described in the guide mentione
 
 ### Trusting a remote certificate
 
-The standard java-microprofile collection in Kabanero does not trust any remote certificate. This will change soon, when the underlying Open Liberty runtime adds [this feature](https://github.com/OpenLiberty/open-liberty/issues/9016)). 
+The standard java-microprofile collection in Kabanero does not trust any remote certificate. This will change soon, when the underlying Open Liberty runtime adds [this feature](https://github.com/OpenLiberty/open-liberty/issues/9016). 
 
 In the meantime, Open Liberty needs to be instructed to use a trust store for outbound connections. That trust store must contain either the certificate for the signing authority for the service certificate or the service certificate itself, and then referenced in the Open Liberty [SSL Repertoire](https://openliberty.io/docs/ref/config/ssl.html) for outbound connections.
 
@@ -237,7 +237,7 @@ We can inspect the contents of the Secret, first changing the configuration cont
 
 ```
 cluster_name=<put your cluster name here>
-eval $(ibmcloud ks cluster config --cluster ${cluster_name} -s)
+eval $(ibmcloud ks cluster config --cluster ${cluster_name} --export)
 ```
 
 Note that users of Docker Desktop can change the configuration context of `kubectl` by  right-clicking the Docker icon and choosing "Kubernetes", then "_<clustername>_".
