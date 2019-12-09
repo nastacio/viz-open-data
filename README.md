@@ -65,7 +65,7 @@ In the meantime, Open Liberty needs to be instructed to use a trust store for ou
 
 This particular service reference is signed by a well-known signing authority, which is contained the CA database shipped with the Java runtime for Open Liberty.
 
-Upon inspection of the docker image used by the java-microprofile stack, one can find that database located at `/opt/java/openjdk/jre/lib/security/cacerts`. The Open Liberty configuration [docs](https://openliberty.io/docs/ref/config/#sslDefault.html) explains in detail how to associate that CA database as the truststore for outbound secure communications, resulting in the following modifications to the server.xml file bundled with the application (located under `src/main/liberty/config`):
+The Open Liberty configuration [docs](https://openliberty.io/docs/ref/config/#sslDefault.html) explains in detail how to associate that CA database as the truststore for outbound secure communications, resulting in the following modifications to the server.xml file bundled with the application (located under `src/main/liberty/config`):
 
 
 ```
@@ -76,7 +76,7 @@ Upon inspection of the docker image used by the java-microprofile stack, one can
 	    password="changeit"
 		readOnly="false" 
 		type="JKS" 
-		location="/opt/java/openjdk/jre/lib/security/cacerts">
+		location="${JAVA_HOME}/lib/security/cacerts">
 	</keyStore>
 
 	<ssl id="defaultSSLSettings" 
@@ -357,25 +357,23 @@ eval $(ibmcloud ks cluster config --cluster ${cluster_name} -s)
 Since the cluster is remote to your local docker daemon, the `deploy` command must also specify the `--push` parameter, so that the image is pushed to a remote repository accessible by the cluster.
 
 ```
-appsody deploy --push --tag your_docker_repo/viz-open-data:0.0.1
+docker_namespace=<insert your docker image namespace here>
+appsody deploy --push --tag ${docker_namespace}/viz-open-data:0.0.1
 ```
 
 Once the application deployment is complete, `appsody` will display the address for the newly deployed application.
 
-In the case of a free-tier cluster in the IBM cloud, the external IP address is not in the Kubernetes service object for the application:
-
-```
-kubectl get services viz-open-data
-```
-
-So you need to get the public IP address from the cluster workers:
+In the case of a free-tier cluster in the IBM cloud, due to [issue #764](https://github.com/appsody/appsody/issues/764), the address may not be displayed, so you need to get the public IP address from the cluster workers:
 
 
 ```
 cluster_name=<put your cluster  name here>
 
-public_ip=$(ibmcloud cs workers --cluster ${cluster_name} --json | grep publicIP | cut -d "\"" -f 4)
-public_port=$(kubectl get service viz-open-data -o jsonpath={.spec.ports[0].nodePort})
+node_name=$(kubectl get pod -l app.kubernetes.io/name=jee-sample -o jsonpath='{.items[].spec.nodeName}')
+
+public_ip=$(kubectl get node ${node_name} -o jsonpath='{.status.addresses[?(@.type=="ExternalIP")].address}')
+
+public_port=$(kubectl get service jee-sample -o jsonpath='{.spec.ports[0].nodePort}')
 
 echo "http://${public_ip}:${public_port}"
 
