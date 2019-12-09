@@ -1,24 +1,38 @@
 apiVersion: appsody.dev/v1beta1
 kind: AppsodyApplication
 metadata:
+  annotations:
+    commit.image.appsody.dev/author: Denilson Nastacio <dnastacio@gmail.com>
+    commit.image.appsody.dev/committer: GitHub <noreply@github.com>
+    commit.image.appsody.dev/date: Mon Dec 9 09:21:19 2019 -0500
+    commit.image.appsody.dev/message: Update README.md
+    image.opencontainers.org/created: "2019-12-09T09:29:04-05:00"
+    image.opencontainers.org/documentation: https://github.com/nastacio/viz-open-data
+    image.opencontainers.org/revision: b8b845f0f332bc3d73c4963e025faba2f59919ab-modified
+    image.opencontainers.org/source: https://github.com/nastacio/viz-open-data/tree/master
+    image.opencontainers.org/url: https://github.com/nastacio/viz-open-data
+    stack.appsody.dev/configured: index.docker.io/appsody/java-microprofile:0.2
+    stack.appsody.dev/created: 2019-11-26T15:01:00+0000
+    stack.appsody.dev/revision: 697abc712b0ee47832d1016bbf0d1b5d50129338
+    stack.appsody.dev/tag: appsody/java-microprofile:0.2.21
+  creationTimestamp: null
+  labels:
+    image.opencontainers.org/title: viz-open-data
+    stack.appsody.dev/version: 0.2.21
   name: viz-open-data
 spec:
-  # Add fields here
-  version: 1.0.0
-  applicationImage: dnastacio/viz-open-data:0.0.10
-  stack: java-microprofile
-  service:
-    type: NodePort
-    port: 9080
-    annotations:
-      prometheus.io/scrape: 'true'
-  readinessProbe:
-    failureThreshold: 12
-    httpGet:
-      path: /health/ready
-      port: 9080
-    initialDelaySeconds: 5
-    periodSeconds: 2
+  applicationImage: dnastacio/viz-open-data:0.0.2
+  createKnativeService: false
+  env:
+  - name: cognos_binding
+    valueFrom:
+      secretKeyRef:
+        key: binding
+        name: binding-open-data-cognos-de
+  envFrom:
+  - secretRef:
+      name: binding-open-data-cognos-de
+  expose: true
   livenessProbe:
     failureThreshold: 12
     httpGet:
@@ -26,14 +40,18 @@ spec:
       port: 9080
     initialDelaySeconds: 5
     periodSeconds: 2
-  expose: true
-  createKnativeService: false
-  env:
-    - name: cognos-binding
-      valueFrom:
-        secretKeyRef:
-          name: binding-open-data-cognos-de
-          key: binding
-  envFrom:
-    - secretRef:
-        name: binding-open-data-cognos-de
+  readinessProbe:
+    failureThreshold: 12
+    httpGet:
+      path: /health/ready
+      port: 9080
+    initialDelaySeconds: 5
+    periodSeconds: 2
+  service:
+    annotations:
+      prometheus.io/scrape: "true"
+    port: 9080
+    type: NodePort
+  stack: java-microprofile
+  version: 1.0.0
+status: {}
