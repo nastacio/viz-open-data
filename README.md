@@ -68,7 +68,7 @@ This particular service reference is signed by a well-known signing authority, w
 The Open Liberty configuration [docs](https://openliberty.io/docs/ref/config/#sslDefault.html) explains in detail how to associate that CA database as the truststore for outbound secure communications, resulting in the following modifications to the server.xml file bundled with the application (located under `src/main/liberty/config`):
 
 
-```
+```xml
 <server description="Liberty server">
     ...
 
@@ -104,7 +104,7 @@ The next sections require the `keytool` utility for managing key stores. You cou
 
 Launch the application with `appsody run` and open a shell into it using a new terminal session:
 
-```
+```sh
 docker exec -it viz-open-data-dev /bin/sh
 
 keytool -importkeystore -srckeystore /opt/java/openjdk/jre/lib/security/cacerts -srcstorepass changeit -keystore /project/user-app/src/main/liberty/config/resources/security/truststore.p12 -storetype PKCS12 -deststorepass mpKeystore 
@@ -112,13 +112,13 @@ keytool -importkeystore -srckeystore /opt/java/openjdk/jre/lib/security/cacerts 
 
 Still in the shell inside the container, add the new key to the new trust store. Note that the key location may be different in your system, so the path in the instruction below may need to be adjusted to match the location of other service certificates in the future:
 
-```
+```sh
 keytool -importcert -file /project/user-app/src/main/resources/us-southdynamic-dashboard-embeddedcloudibmcom.crt -alias ussouthcde -keystore  /project/user-app/src/main/liberty/config/resources/security/truststore.p12 -noprompt -storetype PKCS12 -storepass mpKeystore
 ```
 
 Now we replace the path of the `/opt/java/openjdk/jre/lib/security/cacerts` in server.xml with `truststore.p12`, as follows:
 
-```
+```xml
 <server description="Liberty server">
     ...
 
@@ -146,7 +146,7 @@ Note that this new location is not an absolute path anymore, since it does not r
 
 The modification is based on the usage of the [Maven Resources Plugin](https://maven.apache.org/plugins/maven-resources-plugin/) to copy the new trust store from its location in the code repository to the location expected by Open Liberty. In short, we need to add a new  `plugin` reference under the `build/plugins` element of the `pom.xml` file:
 
-```
+```xml
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.6</version>
@@ -191,7 +191,7 @@ With the IBM Cloud CLI and the API Key setup, it is time to create a "Lite" plan
 Type the following commands in a terminal:
 
 
-```
+```sh
 ibmcloud login --apikey ${IBMCLOUD_API_KEY}
  
 ibmcloud resource service-instance-create open-data-cognos-de dynamic-dashboard-embedded lite us-south -g default
@@ -201,7 +201,7 @@ ibmcloud resource service-instance-create open-data-cognos-de dynamic-dashboard-
 
 The service instance can have multiple credentials with different roles. For this sample, we want a key with the "Reader" role:
 
-```
+```sh
 ibmcloud resource service-key-create cognos-dashboard-key Reader --instance-name open-data-cognos-de 
 
 ibmcloud resource service-key cognos-dashboard-key -g default --output json
@@ -209,7 +209,7 @@ ibmcloud resource service-key cognos-dashboard-key -g default --output json
 
 The structure of a service credential is specific to the service and therefore needs specific code inside the application code to be parsed. For this particular service, the structure looks like this:
 
-```
+```json
 {
   "api_endpoint_url": "https://us-south.dynamic-dashboard-embedded.cloud.ibm.com/daas/",
   "apikey": "...",
@@ -226,7 +226,7 @@ The structure of a service credential is specific to the service and therefore n
 
 This step makes the service credentials available to the cluster:
 
-```
+```sh
 cluster_name=<put your cluster name here>
 ibmcloud ks cluster service bind --cluster ${cluster_name} --service open-data-cognos-de -n default
 ```
@@ -235,7 +235,7 @@ Internally, this command simply creates a Kubernetes `Secret` object, prepending
 
 We can inspect the contents of the Secret, first changing the configuration context of the `kubectl` CLI using the following command: 
 
-```
+```sh
 cluster_name=<put your cluster name here>
 eval $(ibmcloud ks cluster config --cluster ${cluster_name} --export)
 ```
@@ -244,7 +244,7 @@ Note that users of Docker Desktop can change the configuration context of `kubec
 
 With `kubectl` pointing to the remote cluster, use the secret name to inspect its contents:
 
-```
+```json
 kubectl get secret binding-open-data-cognos-de -o json
 
 {
@@ -279,7 +279,7 @@ which are handled by the Appsody Application Operator.
 
 We want the Appsody Application Operator to pull out the `binding` key from the `binding-open-data-cognos-de` secret created by the `ibmcloud ks cluster service bind` invocation, then make it available as an environment variable named `cognos_binding` for the application, which can be achieved with the following snippet in the app-deploy.yml file created by Appsody in the root directory of the application:
 
-```
+```yaml
   env:
     - name: cognos_binding
       valueFrom:
@@ -303,19 +303,19 @@ Note that MacOS has a slightly backward version of the `base64` utility, so the 
 
 MacOS:
 
-```
+```sh
 cognos_credentials="$(kubectl get secret binding-open-data-cognos-de -o jsonpath='{.data.binding}' | base64 -D)"
 ```
 
 Linux:
 
-```
+```sh
 cognos_credentials="$(kubectl get secret binding-open-data-cognos-de -o jsonpath='{.data.binding}' | base64 -d)"
 ```
 
 Then finally:
 
-```
+```sh
 cat > ~/tmp/sample_cognos_binding.txt << EOF
 cognos_binding=${cognos_credentials}
 EOF
@@ -324,7 +324,7 @@ EOF
 
 Once could also use the `ibmcloud resource` CLI to get the credentials, though that would also require the presence of the [jq](https://stedolan.github.io/jq/) utility in the local development environment:
 
-```
+```sh
 cognos_credentials="$(echo $(ibmcloud resource service-key cognos-dashboard-key -g default --output json | jq .[].credentials))"
 
 cat > ~/tmp/sample_cognos_binding.txt << EOF
@@ -334,7 +334,7 @@ EOF
 
 With the environment variable in a file, we can instruct `appsody run` to pass that file to container running the application, as follows:
 
-```
+```sh
 appsody run --docker-options="--env-file=$(echo ~)/tmp/sample_cognos_binding.txt"
 ```
 
@@ -349,14 +349,14 @@ With the application configured to connect to the remote service, it is possible
 
 The command will use `kubectl` to interface with the cluster, so we need to configure `kubectl` to point to the cluster:
 
-```
+```sh
 cluster_name=<put your cluster  name here>
 eval $(ibmcloud ks cluster config --cluster ${cluster_name} -s)
 ```
  
 Since the cluster is remote to your local docker daemon, the `deploy` command must also specify the `--push` parameter, so that the image is pushed to a remote repository accessible by the cluster.
 
-```
+```sh
 docker_namespace=<insert your docker image namespace here>
 appsody deploy --push --tag ${docker_namespace}/viz-open-data:0.0.1
 ```
@@ -366,14 +366,14 @@ Once the application deployment is complete, `appsody` will display the address 
 In the case of a free-tier cluster in the IBM cloud, due to [issue #764](https://github.com/appsody/appsody/issues/764), the address may not be displayed, so you need to get the public IP address from the cluster workers:
 
 
-```
+```sh
 cluster_name=<put your cluster  name here>
 
-node_name=$(kubectl get pod -l app.kubernetes.io/name=jee-sample -o jsonpath='{.items[].spec.nodeName}')
+node_name=$(kubectl get pod -l app.kubernetes.io/name=viz-open-data  -o jsonpath='{.items[].spec.nodeName}')
 
 public_ip=$(kubectl get node ${node_name} -o jsonpath='{.status.addresses[?(@.type=="ExternalIP")].address}')
 
-public_port=$(kubectl get service jee-sample -o jsonpath='{.spec.ports[0].nodePort}')
+public_port=$(kubectl get service viz-open-data -o jsonpath='{.spec.ports[0].nodePort}')
 
 echo "http://${public_ip}:${public_port}"
 
